@@ -8,6 +8,7 @@ import { createFilmTemplate } from './view/film-view.js';
 import { renderTemplate, RenderPosition } from './render.js';
 
 const FILM_CARD_COUNT = 5;
+
 const siteMainElement = document.querySelector('.main');
 const siteNavigationElement = document.querySelector('.header');
 
