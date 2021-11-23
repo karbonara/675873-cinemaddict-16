@@ -18,7 +18,7 @@ renderTemplate(siteMainElement, createFilmTemplate(), RenderPosition.BEFOREEND);
 const filmMainElement = siteMainElement.querySelector('.films-list');
 const filmListElement = filmMainElement.querySelector('.films-list__container');
 
-const FILM_CARD_COUNT = 10;
+const FILM_CARD_COUNT = 5;
 
 for (let i = 0; i < FILM_CARD_COUNT; i++) {
   renderTemplate(filmListElement, createFilmCardTemplate(), RenderPosition.BEFOREEND);
