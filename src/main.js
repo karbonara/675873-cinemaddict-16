@@ -7,6 +7,7 @@ import { createHeaderProfileTemplate } from './view/header-profile-view.js';
 import { createFilmTemplate } from './view/film-view.js';
 import { renderTemplate, RenderPosition } from './render.js';
 
+const FILM_CARD_COUNT = 5;
 const siteMainElement = document.querySelector('.main');
 const siteNavigationElement = document.querySelector('.header');
 
@@ -17,8 +18,6 @@ renderTemplate(siteMainElement, createFilmTemplate(), RenderPosition.BEFOREEND);
 
 const filmMainElement = siteMainElement.querySelector('.films-list');
 const filmListElement = filmMainElement.querySelector('.films-list__container');
-
-const FILM_CARD_COUNT = 5;
 
 for (let i = 0; i < FILM_CARD_COUNT; i++) {
   renderTemplate(filmListElement, createFilmCardTemplate(), RenderPosition.BEFOREEND);
