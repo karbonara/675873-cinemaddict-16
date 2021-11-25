@@ -6,8 +6,11 @@ import { createShowMoreButton } from './view/show-more-view.js';
 import { createHeaderProfileTemplate } from './view/header-profile-view.js';
 import { createFilmTemplate } from './view/film-view.js';
 import { renderTemplate, RenderPosition } from './render.js';
+import { generateCard } from './mock/card-movie.js';
 
 const FILM_CARD_COUNT = 5;
+
+const cards = Array.from({ length: FILM_CARD_COUNT }, generateCard);
 
 const siteMainElement = document.querySelector('.main');
 const siteNavigationElement = document.querySelector('.header');
@@ -21,9 +24,9 @@ const filmMainElement = siteMainElement.querySelector('.films-list');
 const filmListElement = filmMainElement.querySelector('.films-list__container');
 
 for (let i = 0; i < FILM_CARD_COUNT; i++) {
-  renderTemplate(filmListElement, createFilmCardTemplate(), RenderPosition.BEFOREEND);
+  renderTemplate(filmListElement, createFilmCardTemplate(cards[i]), RenderPosition.BEFOREEND);
 }
 renderTemplate(filmMainElement, createShowMoreButton(), RenderPosition.BEFOREEND);
 
-const footerElement = document.querySelector('.footer');
-renderTemplate(footerElement, createPopupFilm(), RenderPosition.BEFOREEND);
+// const footerElement = document.querySelector('.footer');
+// renderTemplate(footerElement, createPopupFilm(), RenderPosition.BEFOREEND);
