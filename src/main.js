@@ -8,7 +8,8 @@ import { createFilmTemplate } from './view/film-view.js';
 import { renderTemplate, RenderPosition } from './render.js';
 import { generateCard } from './mock/card-movie.js';
 
-const FILM_CARD_COUNT = 5;
+const FILM_CARD_COUNT = 25;
+const FILM_CARD_COUNT_PER_STEP = 18;
 
 const cards = Array.from({ length: FILM_CARD_COUNT }, generateCard);
 
@@ -23,10 +24,32 @@ renderTemplate(siteMainElement, createFilmTemplate(), RenderPosition.BEFOREEND);
 const filmMainElement = siteMainElement.querySelector('.films-list');
 const filmListElement = filmMainElement.querySelector('.films-list__container');
 
-for (let i = 0; i < FILM_CARD_COUNT; i++) {
+for (let i = 0; i < Math.min(cards.length, FILM_CARD_COUNT_PER_STEP); i++) {
   renderTemplate(filmListElement, createFilmCardTemplate(cards[i]), RenderPosition.BEFOREEND);
 }
-renderTemplate(filmMainElement, createShowMoreButton(), RenderPosition.BEFOREEND);
 
-// const footerElement = document.querySelector('.footer');
-// renderTemplate(footerElement, createPopupFilm(), RenderPosition.BEFOREEND);
+if (cards.length > FILM_CARD_COUNT_PER_STEP) {
+  let renderCount = FILM_CARD_COUNT_PER_STEP;
+  renderTemplate(filmMainElement, createShowMoreButton(), RenderPosition.BEFOREEND);
+
+  const loadButton = filmMainElement.querySelector('.films-list__show-more')
+  loadButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    cards
+      .slice(renderCount, renderCount + FILM_CARD_COUNT_PER_STEP)
+      .forEach((card) => renderTemplate(filmListElement, createFilmCardTemplate(card), RenderPosition.BEFOREEND));
+
+    renderCount += FILM_CARD_COUNT_PER_STEP;
+
+    if (renderCount >= cards.length) {
+      loadButton.remove()
+    }
+  });
+}
+
+
+const footerElement = document.querySelector('.footer');
+for (let i = 0; FILM_CARD_COUNT; i++) {
+  renderTemplate(footerElement, createPopupFilm(cards[i]), RenderPosition.BEFOREEND);
+}
+

@@ -7,10 +7,10 @@ const getRandomInteger = (a = 0, b = 1) => {
 
 const generateTitle = () => {
   const titles = [
-    'Iron Man',
-    'Spider Man',
-    'Venom',
-    'Venom 2',
+    'Santa Claus Conquers the Martians',
+    'Made for Each Other',
+    'The Man with the Golden Arm',
+    'Popeye the Sailor Meets Sindbad the Sailor',
   ];
   const randomIndex = getRandomInteger(0, titles.length - 1);
 
@@ -27,7 +27,7 @@ const generateDescription = () => {
   const randomIndex = getRandomInteger(0, descriptions.length - 1);
 
   return descriptions[randomIndex];
-}
+};
 
 const generateImg = () => {
   const images = [
@@ -52,10 +52,20 @@ const generateGenre = () => {
   const randomIndex = getRandomInteger(0, genres.length - 1);
   return genres[randomIndex];
 };
+const generateCountry = () => {
+  const countrys = [
+    'USA',
+    'Italy',
+    'Germany',
+  ];
+  const randomIndex = getRandomInteger(0, countrys.length - 1);
+  return countrys[randomIndex];
+};
 
 export const generateCard = () => ({
   title: generateTitle(),
   description: generateDescription(),
   img: generateImg(),
   genre: generateGenre(),
+  country: generateCountry(),
 });
