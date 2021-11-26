@@ -32,7 +32,7 @@ if (cards.length > FILM_CARD_COUNT_PER_STEP) {
   let renderCount = FILM_CARD_COUNT_PER_STEP;
   renderTemplate(filmMainElement, createShowMoreButton(), RenderPosition.BEFOREEND);
 
-  const loadButton = filmMainElement.querySelector('.films-list__show-more')
+  const loadButton = filmMainElement.querySelector('.films-list__show-more');
   loadButton.addEventListener('click', (evt) => {
     evt.preventDefault();
     cards
@@ -42,7 +42,7 @@ if (cards.length > FILM_CARD_COUNT_PER_STEP) {
     renderCount += FILM_CARD_COUNT_PER_STEP;
 
     if (renderCount >= cards.length) {
-      loadButton.remove()
+      loadButton.remove();
     }
   });
 }
