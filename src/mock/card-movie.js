@@ -1,19 +1,5 @@
 import dayjs from 'dayjs';
-
-const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
-
-const getRandomPositiveFloat = (a, b, digits = 1) => {
-  const lower = Math.min(Math.abs(a), Math.abs(b));
-  const upper = Math.max(Math.abs(a), Math.abs(b));
-  const result = Math.random() * (upper - lower) + lower;
-  return result.toFixed(digits);
-};
-
-const getRating = () => getRandomPositiveFloat(1, 10, 1);
+import { getRandomInteger, getRating } from '../utils.js';
 
 const generateTitle = () => {
   const titles = [
@@ -104,26 +90,38 @@ const generateWriter = () => {
 
 const generateColorRating = () => {
   const colorRating = [
-    'film-card__rating--good',
-    'film-card__rating--average',
-    'film-card__rating--poor',
+    'good',
+    'average',
+    'poor',
   ];
   const randomIndex = getRandomInteger(0, colorRating.length - 1);
   return colorRating[randomIndex];
 };
 
-export const generateCard = () => ({
-  title: generateTitle(),
-  description: generateDescription(),
-  img: generateImg(),
-  genre: generateGenre(),
-  country: generateCountry(),
-  rating: Number(getRating()),
-  actors: generateActor(),
-  director: generateDirector(),
-  writers: generateWriter(),
-  colorRating: generateColorRating(),
-  isWatchlist: Boolean(getRandomInteger(0, 1)),
-  isWatched: Boolean(getRandomInteger(0, 1)),
-  isFavorite: Boolean(getRandomInteger(0, 1)),
-});
+const generateDate = () => {
+
+  const maxDaysGap = 36000;
+  const daysGap = getRandomInteger(1, maxDaysGap);
+
+  return dayjs().add(-daysGap, 'day').toDate();
+};
+
+export const generateCard = () => {
+  // const dueDate = generateDate();
+  return {
+    dueDate: generateDate(),
+    title: generateTitle(),
+    description: generateDescription(),
+    img: generateImg(),
+    genre: generateGenre(),
+    country: generateCountry(),
+    rating: Number(getRating()),
+    actors: generateActor(),
+    director: generateDirector(),
+    writers: generateWriter(),
+    colorRating: generateColorRating(),
+    isWatchlist: Boolean(getRandomInteger(0, 1)),
+    isWatched: Boolean(getRandomInteger(0, 1)),
+    isFavorite: Boolean(getRandomInteger(0, 1)),
+  }
+};

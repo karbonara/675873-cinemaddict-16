@@ -1,5 +1,34 @@
 export const createPopupFilm = (card) => {
-  const { title, description, img, genre, country, rating, director, actors, writers, colorRating } = card;
+  const {
+    title,
+    description,
+    img,
+    genre,
+    country,
+    rating,
+    director,
+    actors,
+    writers,
+    colorRating,
+    isWatchlist,
+    isWatched,
+    isFavorite
+  } = card;
+  const watchlistClassName = isWatchlist
+    ? 'film-details__control-button--watchlist film-details__control-button--active'
+    : 'film-details__control-button--watchlist';
+  const watchedClassName = isWatched
+    ? 'film-details__control-button--watched film-details__control-button--active'
+    : 'film-details__control-button--watched';
+  const favoritesClassName = isFavorite
+    ? 'film-details__control-button--favorite film-details__control-button--active'
+    : 'film-details__control-button--favorite';
+
+  const controlButton = `
+  <button type="button" class="film-details__control-button ${watchlistClassName}" id="watchlist" name="watchlist">Add to watchlist</button>
+  <button type="button" class="film-details__control-button ${watchedClassName}" id="watched" name="watched">Already watched</button>
+  <button type="button" class="film-details__control-button ${favoritesClassName}" id="favorite" name="favorite">Add to favorites</button>`;
+
   return `
   <section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -61,9 +90,7 @@ export const createPopupFilm = (card) => {
         </div>
       </div>
       <section class="film-details__controls">
-        <button type="button" class="film-details__control-button film-details__control-button--watchlist" id="watchlist" name="watchlist">Add to watchlist</button>
-        <button type="button" class="film-details__control-button film-details__control-button--active film-details__control-button--watched" id="watched" name="watched">Already watched</button>
-        <button type="button" class="film-details__control-button film-details__control-button--favorite" id="favorite" name="favorite">Add to favorites</button>
+          ${controlButton}
       </section>
     </div>
     <div class="film-details__bottom-container">
