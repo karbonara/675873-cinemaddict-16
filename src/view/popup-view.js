@@ -1,5 +1,5 @@
 export const createPopupFilm = (card) => {
-  const { title, description, img, genre, country } = card;
+  const { title, description, img, genre, country, rating, director, actors, writers, colorRating } = card;
   return `
   <section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -9,7 +9,7 @@ export const createPopupFilm = (card) => {
       </div>
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
-          <img class="film-details__poster-img" src="./images/posters/${img}" alt="">
+          <img class="film-details__poster-img" src="./images/posters/${img}" alt="${title}">
           <p class="film-details__age">18+</p>
         </div>
         <div class="film-details__info">
@@ -18,22 +18,22 @@ export const createPopupFilm = (card) => {
               <h3 class="film-details__title">${title}</h3>
               <p class="film-details__title-original">Original: The Great Flamarion</p>
             </div>
-            <div class="film-details__rating">
-              <p class="film-details__total-rating">8.9</p>
+            <div class="film-details__rating ${colorRating}">
+              <p class="film-details__total-rating ">${rating}</p>
             </div>
           </div>
           <table class="film-details__table">
             <tr class="film-details__row">
               <td class="film-details__term">Director</td>
-              <td class="film-details__cell">Anthony Mann</td>
+              <td class="film-details__cell">${director}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Writers</td>
-              <td class="film-details__cell">Anne Wigton, Heinz Herald, Richard Weil</td>
+              <td class="film-details__cell">${writers}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Actors</td>
-              <td class="film-details__cell">Erich von Stroheim, Mary Beth Hughes, Dan Duryea</td>
+              <td class="film-details__cell">${actors}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>

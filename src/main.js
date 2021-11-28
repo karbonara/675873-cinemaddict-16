@@ -8,8 +8,8 @@ import { createFilmTemplate } from './view/film-view.js';
 import { renderTemplate, RenderPosition } from './render.js';
 import { generateCard } from './mock/card-movie.js';
 
-const FILM_CARD_COUNT = 25;
-const FILM_CARD_COUNT_PER_STEP = 18;
+const FILM_CARD_COUNT = 15;
+const FILM_CARD_COUNT_PER_STEP = 8;
 
 const cards = Array.from({ length: FILM_CARD_COUNT }, generateCard);
 
