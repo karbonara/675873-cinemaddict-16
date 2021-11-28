@@ -1,3 +1,5 @@
+// import dayjs from 'dayjs';
+import { datePopup } from '../utils.js';
 export const createPopupFilm = (card) => {
   const {
     title,
@@ -12,7 +14,8 @@ export const createPopupFilm = (card) => {
     colorRating,
     isWatchlist,
     isWatched,
-    isFavorite
+    isFavorite,
+    releaseDate
   } = card;
   const watchlistClassName = isWatchlist
     ? 'film-details__control-button--watchlist film-details__control-button--active'
@@ -66,7 +69,7 @@ export const createPopupFilm = (card) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">30 March 1945</td>
+              <td class="film-details__cell">${datePopup(releaseDate)}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>

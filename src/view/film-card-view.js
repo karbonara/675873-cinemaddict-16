@@ -1,5 +1,5 @@
-import dayjs from "dayjs";
-
+// import dayjs from 'dayjs';
+import { date } from '../utils.js';
 export const createFilmCardTemplate = (card) => {
   const {
     title,
@@ -11,8 +11,10 @@ export const createFilmCardTemplate = (card) => {
     isWatchlist,
     isWatched,
     isFavorite,
-    dueDate,
+    releaseDate,
   } = card;
+
+  // const Watchlist = (watch) => Object.values(watch).some(Boolean);
 
   const watchlistClassName = isWatchlist
     ? 'film-card__controls-item--add-to-watchlist film-card__controls-item--active'
@@ -30,7 +32,9 @@ export const createFilmCardTemplate = (card) => {
   <button class="film-card__controls-item ${favoritesClassName}" type="button">Mark as favorite</button>
   `;
 
-  const date = dayjs(dueDate).format('YYYY');
+  // const date = dayjs(releaseDate).format('YYYY');
+
+  // const dataYear = date(releaseDate);
 
   return `
     <article class="film-card">
@@ -38,7 +42,7 @@ export const createFilmCardTemplate = (card) => {
           <h3 class="film-card__title">${title}</h3>
           <p class="film-card__rating film-card__rating--${colorRating}">${rating}</p>
           <p class="film-card__info">
-            <span class="film-card__year">${date}</span>
+            <span class="film-card__year">${date(releaseDate)}</span>
             <span class="film-card__duration">54m</span>
             <span class="film-card__genre">${genre}</span>
           </p>

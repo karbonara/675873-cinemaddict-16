@@ -7,16 +7,20 @@ import { createHeaderProfileTemplate } from './view/header-profile-view.js';
 import { createFilmTemplate } from './view/film-view.js';
 import { renderTemplate, RenderPosition } from './render.js';
 import { generateCard } from './mock/card-movie.js';
+import { generateFilter } from './mock/filter.js';
 
 const FILM_CARD_COUNT = 15;
 const FILM_CARD_COUNT_PER_STEP = 8;
 
 const cards = Array.from({ length: FILM_CARD_COUNT }, generateCard);
 
+const filters = generateFilter(cards);
+console.log(filters);
+
 const siteMainElement = document.querySelector('.main');
 const siteNavigationElement = document.querySelector('.header');
 
-renderTemplate(siteMainElement, createSiteMenuTemplate(), RenderPosition.BEFOREEND);
+renderTemplate(siteMainElement, createSiteMenuTemplate(filters), RenderPosition.BEFOREEND);
 renderTemplate(siteNavigationElement, createHeaderProfileTemplate(), RenderPosition.BEFOREEND);
 renderTemplate(siteMainElement, createFilterTemplate(), RenderPosition.BEFOREEND);
 renderTemplate(siteMainElement, createFilmTemplate(), RenderPosition.BEFOREEND);

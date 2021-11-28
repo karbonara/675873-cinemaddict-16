@@ -1,5 +1,4 @@
-import dayjs from 'dayjs';
-import { getRandomInteger, getRating } from '../utils.js';
+import { getRandomInteger, getRating, generateDate } from '../utils.js';
 
 const generateTitle = () => {
   const titles = [
@@ -98,30 +97,19 @@ const generateColorRating = () => {
   return colorRating[randomIndex];
 };
 
-const generateDate = () => {
-
-  const maxDaysGap = 36000;
-  const daysGap = getRandomInteger(1, maxDaysGap);
-
-  return dayjs().add(-daysGap, 'day').toDate();
-};
-
-export const generateCard = () => {
-  // const dueDate = generateDate();
-  return {
-    dueDate: generateDate(),
-    title: generateTitle(),
-    description: generateDescription(),
-    img: generateImg(),
-    genre: generateGenre(),
-    country: generateCountry(),
-    rating: Number(getRating()),
-    actors: generateActor(),
-    director: generateDirector(),
-    writers: generateWriter(),
-    colorRating: generateColorRating(),
-    isWatchlist: Boolean(getRandomInteger(0, 1)),
-    isWatched: Boolean(getRandomInteger(0, 1)),
-    isFavorite: Boolean(getRandomInteger(0, 1)),
-  }
-};
+export const generateCard = () => ({
+  releaseDate: generateDate(),
+  title: generateTitle(),
+  description: generateDescription(),
+  img: generateImg(),
+  genre: generateGenre(),
+  country: generateCountry(),
+  rating: Number(getRating()),
+  actors: generateActor(),
+  director: generateDirector(),
+  writers: generateWriter(),
+  colorRating: generateColorRating(),
+  isWatchlist: Boolean(getRandomInteger(0, 1)),
+  isWatched: Boolean(getRandomInteger(0, 1)),
+  isFavorite: Boolean(getRandomInteger(0, 1)),
+});
