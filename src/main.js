@@ -11,9 +11,7 @@ import { generateFilter } from './mock/filter.js';
 
 const FILM_CARD_COUNT = 15;
 const FILM_CARD_COUNT_PER_STEP = 8;
-
 const cards = Array.from({ length: FILM_CARD_COUNT }, generateCard);
-
 const filters = generateFilter(cards);
 
 const siteMainElement = document.querySelector('.main');
@@ -49,10 +47,7 @@ if (cards.length > FILM_CARD_COUNT_PER_STEP) {
     }
   });
 }
-
-
 const footerElement = document.querySelector('.footer');
-
 for (let i = 0; FILM_CARD_COUNT; i++) {
   renderTemplate(footerElement, createPopupFilm(cards[i]), RenderPosition.BEFOREEND);
 }

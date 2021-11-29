@@ -1,4 +1,3 @@
-// import dayjs from 'dayjs';
 import { date } from '../utils.js';
 export const createFilmCardTemplate = (card) => {
   const {
@@ -12,10 +11,9 @@ export const createFilmCardTemplate = (card) => {
     isWatched,
     isFavorite,
     releaseDate,
+    duration,
+    countComment
   } = card;
-
-  // const Watchlist = (watch) => Object.values(watch).some(Boolean);
-
   const watchlistClassName = isWatchlist
     ? 'film-card__controls-item--add-to-watchlist film-card__controls-item--active'
     : 'film-card__controls-item--add-to-watchlist';
@@ -31,11 +29,6 @@ export const createFilmCardTemplate = (card) => {
   <button class="film-card__controls-item ${watchedClassName}" type="button">Mark as watched</button>
   <button class="film-card__controls-item ${favoritesClassName}" type="button">Mark as favorite</button>
   `;
-
-  // const date = dayjs(releaseDate).format('YYYY');
-
-  // const dataYear = date(releaseDate);
-
   return `
     <article class="film-card">
         <a class="film-card__link">
@@ -43,12 +36,12 @@ export const createFilmCardTemplate = (card) => {
           <p class="film-card__rating film-card__rating--${colorRating}">${rating}</p>
           <p class="film-card__info">
             <span class="film-card__year">${date(releaseDate)}</span>
-            <span class="film-card__duration">54m</span>
+            <span class="film-card__duration">${duration}</span>
             <span class="film-card__genre">${genre}</span>
           </p>
           <img src="./images/posters/${img}" alt="${title}" class="film-card__poster">
           <p class="film-card__description">${description}</p>
-          <span class="film-card__comments">89 comments</span>
+          <span class="film-card__comments">${countComment} comments</span>
         </a>
           <div class="film-card__controls">
               ${controlsItemButton}

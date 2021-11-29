@@ -97,6 +97,43 @@ const generateColorRating = () => {
   return colorRating[randomIndex];
 };
 
+const generateDuration = () => {
+  const hours = getRandomInteger();
+  const minutes = getRandomInteger(1, 59);
+  let durations = hours ? `${hours}h ` : '';
+  durations += `${minutes}m`;
+  return durations;
+};
+
+const generateComment = () => {
+  const comments = [
+    'Very very old. Meh',
+    'Almost two hours? Seriously?',
+    'Interesting setting and a good cast'
+  ];
+  const randomIndex = getRandomInteger(0, comments.length - 1);
+  return comments[randomIndex];
+};
+const generateCommentImg = () => {
+  const commentsImg = [
+    'smile.png',
+    'puke.png',
+    'sleeping.png',
+    'angry.png'
+  ];
+  const randomIndex = getRandomInteger(0, commentsImg.length - 1);
+  return commentsImg[randomIndex];
+};
+const generateCommentName = () => {
+  const commentsName = [
+    'Tim Macoveev',
+    'John Do',
+    'John Mason',
+  ];
+  const randomIndex = getRandomInteger(0, commentsName.length - 1);
+  return commentsName[randomIndex];
+};
+
 export const generateCard = () => ({
   releaseDate: generateDate(),
   title: generateTitle(),
@@ -109,6 +146,11 @@ export const generateCard = () => ({
   director: generateDirector(),
   writers: generateWriter(),
   colorRating: generateColorRating(),
+  duration: generateDuration(),
+  countComment: getRandomInteger(0, 99),
+  comment: generateComment(),
+  commentImg: generateCommentImg(),
+  commentName: generateCommentName(),
   isWatchlist: Boolean(getRandomInteger(0, 1)),
   isWatched: Boolean(getRandomInteger(0, 1)),
   isFavorite: Boolean(getRandomInteger(0, 1)),
