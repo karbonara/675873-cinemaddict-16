@@ -1,8 +1,8 @@
 import { createSiteMenuTemplate } from './view/site-menu-view.js';
-import { createPopupFilm } from './view/popup-view.js';
+import { createPopupFilmTemplate } from './view/popup-view.js';
 import { createFilmCardTemplate } from './view/film-card-view.js';
 import { createFilterTemplate } from './view/filter-menu-view.js';
-import { createShowMoreButton } from './view/show-more-view.js';
+import { createShowMoreButtonTemplate } from './view/show-more-view.js';
 import { createHeaderProfileTemplate } from './view/header-profile-view.js';
 import { createFilmTemplate } from './view/film-view.js';
 import { renderTemplate, RenderPosition } from './render.js';
@@ -31,7 +31,7 @@ for (let i = 0; i < Math.min(cards.length, FILM_CARD_COUNT_PER_STEP); i++) {
 
 if (cards.length > FILM_CARD_COUNT_PER_STEP) {
   let renderCount = FILM_CARD_COUNT_PER_STEP;
-  renderTemplate(filmMainElement, createShowMoreButton(), RenderPosition.BEFOREEND);
+  renderTemplate(filmMainElement, createShowMoreButtonTemplate(), RenderPosition.BEFOREEND);
 
   const loadButton = filmMainElement.querySelector('.films-list__show-more');
   loadButton.addEventListener('click', (evt) => {
@@ -49,6 +49,6 @@ if (cards.length > FILM_CARD_COUNT_PER_STEP) {
 }
 const footerElement = document.querySelector('.footer');
 for (let i = 0; FILM_CARD_COUNT; i++) {
-  renderTemplate(footerElement, createPopupFilm(cards[i]), RenderPosition.BEFOREEND);
+  renderTemplate(footerElement, createPopupFilmTemplate(cards[i]), RenderPosition.BEFOREEND);
 }
 

@@ -1,5 +1,5 @@
 import { datePopup } from '../utils.js';
-export const createPopupFilm = (card) => {
+export const createPopupFilmTemplate = (card) => {
   const {
     title,
     description,
