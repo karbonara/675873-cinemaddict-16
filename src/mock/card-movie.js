@@ -150,7 +150,7 @@ const generateAgeRating = () => {
   ];
   const randomIndex = getRandomInteger(0, ageRating.length - 1);
   return ageRating[randomIndex];
-}
+};
 export const generateCard = () => ({
   releaseDate: generateDate(),
   title: generateTitle(),
