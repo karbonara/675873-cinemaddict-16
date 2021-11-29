@@ -133,7 +133,24 @@ const generateCommentName = () => {
   const randomIndex = getRandomInteger(0, commentsName.length - 1);
   return commentsName[randomIndex];
 };
-
+const generateOriginalTitle = () => {
+  const originalTitle = [
+    'The Great Flamarion',
+    'Made for Each Other',
+    'Santa Claus Conquers the Martians',
+  ];
+  const randomIndex = getRandomInteger(0, originalTitle.length - 1);
+  return originalTitle[randomIndex];
+};
+const generateAgeRating = () => {
+  const ageRating = [
+    '18+',
+    '16+',
+    '21+',
+  ];
+  const randomIndex = getRandomInteger(0, ageRating.length - 1);
+  return ageRating[randomIndex];
+}
 export const generateCard = () => ({
   releaseDate: generateDate(),
   title: generateTitle(),
@@ -151,6 +168,9 @@ export const generateCard = () => ({
   comment: generateComment(),
   commentImg: generateCommentImg(),
   commentName: generateCommentName(),
+  commentCount: getRandomInteger(0, 99),
+  originalTitle: generateOriginalTitle(),
+  ageRating: generateAgeRating(),
   isWatchlist: Boolean(getRandomInteger(0, 1)),
   isWatched: Boolean(getRandomInteger(0, 1)),
   isFavorite: Boolean(getRandomInteger(0, 1)),

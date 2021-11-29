@@ -19,6 +19,9 @@ export const createPopupFilm = (card) => {
     comment,
     commentImg,
     commentName,
+    originalTitle,
+    ageRating,
+    commentCount,
   } = card;
   const watchlistClassName = isWatchlist
     ? 'film-details__control-button--watchlist film-details__control-button--active'
@@ -61,13 +64,13 @@ export const createPopupFilm = (card) => {
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
           <img class="film-details__poster-img" src="./images/posters/${img}" alt="${title}">
-          <p class="film-details__age">18+</p>
+          <p class="film-details__age">${ageRating}</p>
         </div>
         <div class="film-details__info">
           <div class="film-details__info-head">
             <div class="film-details__title-wrap">
               <h3 class="film-details__title">${title}</h3>
-              <p class="film-details__title-original">Original: The Great Flamarion</p>
+              <p class="film-details__title-original">Original: ${originalTitle}</p>
             </div>
             <div class="film-details__rating ${colorRating}">
               <p class="film-details__total-rating ">${rating}</p>
@@ -117,7 +120,7 @@ export const createPopupFilm = (card) => {
     </div>
     <div class="film-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentCount}</span></h3>
         <ul class="film-details__comments-list">
             ${commentsList}
         </ul>
