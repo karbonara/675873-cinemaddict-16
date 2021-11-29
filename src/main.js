@@ -1,5 +1,5 @@
 import { createSiteMenuTemplate } from './view/site-menu-view.js';
-import { createPopupFilm } from './view/popup-view.js';
+// import { createPopupFilm } from './view/popup-view.js';
 import { createFilmCardTemplate } from './view/film-card-view.js';
 import { createFilterTemplate } from './view/filter-menu-view.js';
 import { createShowMoreButton } from './view/show-more-view.js';
@@ -47,8 +47,8 @@ if (cards.length > FILM_CARD_COUNT_PER_STEP) {
     }
   });
 }
-const footerElement = document.querySelector('.footer');
-for (let i = 0; FILM_CARD_COUNT; i++) {
-  renderTemplate(footerElement, createPopupFilm(cards[i]), RenderPosition.BEFOREEND);
-}
+// const footerElement = document.querySelector('.footer');
+// for (let i = 0; FILM_CARD_COUNT; i++) {
+//   renderTemplate(footerElement, createPopupFilm(cards[i]), RenderPosition.BEFOREEND);
+// }
 

@@ -18,7 +18,7 @@ export const createPopupFilm = (card) => {
     duration,
     comment,
     commentImg,
-    commentName
+    commentName,
   } = card;
   const watchlistClassName = isWatchlist
     ? 'film-details__control-button--watchlist film-details__control-button--active'

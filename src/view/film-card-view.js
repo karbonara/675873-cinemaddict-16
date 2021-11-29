@@ -12,7 +12,7 @@ export const createFilmCardTemplate = (card) => {
     isFavorite,
     releaseDate,
     duration,
-    countComment
+    countComment,
   } = card;
   const watchlistClassName = isWatchlist
     ? 'film-card__controls-item--add-to-watchlist film-card__controls-item--active'

@@ -1,5 +1,3 @@
-// import { date } from '../utils.js';
-
 const filmCardFilter = {
   Watched: (cards) => cards
     .filter((card) => card.isWatched).length,
