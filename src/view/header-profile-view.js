@@ -1,4 +1,5 @@
-export const createHeaderProfileTemplate = () => (
+import { createElement } from '../render.js';
+const createHeaderProfileTemplate = () => (
   `
   <section class="header__profile profile">
     <p class="profile__rating">Movie buff</p>
@@ -7,3 +8,22 @@ export const createHeaderProfileTemplate = () => (
   `
 );
 
+export default class HeaderProfile {
+  #element = null;
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createHeaderProfileTemplate();
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}

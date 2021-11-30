@@ -1,11 +1,12 @@
 import { createSiteMenuTemplate } from './view/site-menu-view.js';
-import { createPopupFilmTemplate } from './view/popup-view.js';
+// import { createPopupFilmTemplate } from './view/popup-view.js';
 import { createFilmCardTemplate } from './view/film-card-view.js';
 import { createFilterTemplate } from './view/filter-menu-view.js';
 import { createShowMoreButtonTemplate } from './view/show-more-view.js';
-import { createHeaderProfileTemplate } from './view/header-profile-view.js';
+// import { createHeaderProfileTemplate } from './view/header-profile-view.js';
+import HeaderProfile from './view/header-profile-view.js';
 import { createFilmTemplate } from './view/film-view.js';
-import { renderTemplate, RenderPosition } from './render.js';
+import { renderTemplate, renderElement, RenderPosition } from './render.js';
 import { generateCard } from './mock/card-movie.js';
 import { generateFilter } from './mock/filter.js';
 
@@ -18,7 +19,10 @@ const siteMainElement = document.querySelector('.main');
 const siteNavigationElement = document.querySelector('.header');
 
 renderTemplate(siteMainElement, createSiteMenuTemplate(filters), RenderPosition.BEFOREEND);
-renderTemplate(siteNavigationElement, createHeaderProfileTemplate(), RenderPosition.BEFOREEND);
+
+// renderTemplate(siteNavigationElement, createHeaderProfileTemplate(), RenderPosition.BEFOREEND);
+renderElement(siteNavigationElement, new HeaderProfile().element, RenderPosition.BEFOREEND);
+
 renderTemplate(siteMainElement, createFilterTemplate(), RenderPosition.BEFOREEND);
 renderTemplate(siteMainElement, createFilmTemplate(), RenderPosition.BEFOREEND);
 
@@ -47,8 +51,8 @@ if (cards.length > FILM_CARD_COUNT_PER_STEP) {
     }
   });
 }
-const footerElement = document.querySelector('.footer');
-for (let i = 0; FILM_CARD_COUNT; i++) {
-  renderTemplate(footerElement, createPopupFilmTemplate(cards[i]), RenderPosition.BEFOREEND);
-}
+// const footerElement = document.querySelector('.footer');
+// for (let i = 0; FILM_CARD_COUNT; i++) {
+//   renderTemplate(footerElement, createPopupFilmTemplate(cards[i]), RenderPosition.BEFOREEND);
+// }
 
