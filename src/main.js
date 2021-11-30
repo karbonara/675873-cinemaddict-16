@@ -1,11 +1,10 @@
-import { createSiteMenuTemplate } from './view/site-menu-view.js';
+import SiteMenu from './view/site-menu-view.js';
 // import { createPopupFilmTemplate } from './view/popup-view.js';
 import { createFilmCardTemplate } from './view/film-card-view.js';
 import { createFilterTemplate } from './view/filter-menu-view.js';
-import { createShowMoreButtonTemplate } from './view/show-more-view.js';
-// import { createHeaderProfileTemplate } from './view/header-profile-view.js';
+import ShowMoreButton from './view/show-more-view.js';
 import HeaderProfile from './view/header-profile-view.js';
-import { createFilmTemplate } from './view/film-view.js';
+import FilmContainer from './view/film-view.js';
 import { renderTemplate, renderElement, RenderPosition } from './render.js';
 import { generateCard } from './mock/card-movie.js';
 import { generateFilter } from './mock/filter.js';
@@ -18,13 +17,13 @@ const filters = generateFilter(cards);
 const siteMainElement = document.querySelector('.main');
 const siteNavigationElement = document.querySelector('.header');
 
-renderTemplate(siteMainElement, createSiteMenuTemplate(filters), RenderPosition.BEFOREEND);
+renderElement(siteMainElement, new SiteMenu(filters).element, RenderPosition.BEFOREEND);
 
-// renderTemplate(siteNavigationElement, createHeaderProfileTemplate(), RenderPosition.BEFOREEND);
 renderElement(siteNavigationElement, new HeaderProfile().element, RenderPosition.BEFOREEND);
 
 renderTemplate(siteMainElement, createFilterTemplate(), RenderPosition.BEFOREEND);
-renderTemplate(siteMainElement, createFilmTemplate(), RenderPosition.BEFOREEND);
+
+renderElement(siteMainElement, new FilmContainer().element, RenderPosition.BEFOREEND);
 
 const filmMainElement = siteMainElement.querySelector('.films-list');
 const filmListElement = filmMainElement.querySelector('.films-list__container');
@@ -35,7 +34,7 @@ for (let i = 0; i < Math.min(cards.length, FILM_CARD_COUNT_PER_STEP); i++) {
 
 if (cards.length > FILM_CARD_COUNT_PER_STEP) {
   let renderCount = FILM_CARD_COUNT_PER_STEP;
-  renderTemplate(filmMainElement, createShowMoreButtonTemplate(), RenderPosition.BEFOREEND);
+  renderElement(filmMainElement, new ShowMoreButton().element, RenderPosition.BEFOREEND);
 
   const loadButton = filmMainElement.querySelector('.films-list__show-more');
   loadButton.addEventListener('click', (evt) => {
