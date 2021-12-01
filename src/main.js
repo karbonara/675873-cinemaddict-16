@@ -36,12 +36,14 @@ const filmListElement = filmMainElement.querySelector('.films-list__container');
 const renderCard = (cardListElement, card) => {
   const cardComponent = new FilmCard(card);
   const cardPopupComponent = new PopupFilm(card);
-
+  const body = document.body;
   cardComponent.element.querySelector('.film-card__link').addEventListener('click', () => {
     cardListElement.appendChild(cardPopupComponent.element);
+    body.classList.add('hide-overflow');
   });
   cardPopupComponent.element.querySelector('.film-details__close-btn').addEventListener('click', () => {
     cardListElement.removeChild(cardPopupComponent.element);
+    body.classList.remove('hide-overflow');
   });
 
   render(cardListElement, cardComponent.element, RenderPosition.BEFOREEND);
