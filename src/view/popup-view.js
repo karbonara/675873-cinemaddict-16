@@ -157,7 +157,7 @@ const createPopupFilmTemplate = (card) => {
   </form>
 </section>`;
 };
-export default class PopupFilm {
+export default class PopupFilmView {
   #element = null;
   #cards = null;
   constructor(cards) {

@@ -7,7 +7,7 @@ const createSiteMenuTemplate = () => (
     </section>`
 );
 
-export default class HeaderProfile {
+export default class HeaderProfileView {
   #element = null;
 
   get element() {

@@ -17,7 +17,7 @@ const createSiteMenuTemplate = (filterItems) => {
         <a href="#stats" class="main-navigation__additional">Stats</a>
     </nav>`;
 };
-export default class SiteMenu {
+export default class SiteMenuView {
   #element = null;
   #filters = null;
 

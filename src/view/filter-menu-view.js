@@ -2,7 +2,7 @@ import { createElement } from '../render.js';
 const createFilterSortTemplate = () => (
   '<section class="sort"></section>'
 );
-export default class FilterSort {
+export default class FilterSortView {
   #element = null;
   #filters = null;
 
