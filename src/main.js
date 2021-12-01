@@ -6,6 +6,8 @@ import SortView from './view/sort-view.js';
 import ShowMoreButton from './view/show-more-view.js';
 import HeaderProfile from './view/header-profile-view.js';
 import FilmContainer from './view/film-view.js';
+// import FilmRated from './view/film-rated.js';
+// import FilmCardRated from './view/film-card-rated.js';
 import { render, RenderPosition } from './render.js';
 import { generateCard } from './mock/card-movie.js';
 import { generateFilter } from './mock/filter.js';
@@ -31,8 +33,22 @@ render(siteMainElement, new FilmContainer().element, RenderPosition.BEFOREEND);
 const filmMainElement = siteMainElement.querySelector('.films-list');
 const filmListElement = filmMainElement.querySelector('.films-list__container');
 
+const renderCard = (cardListElement, card) => {
+  const cardComponent = new FilmCard(card);
+  const cardPopupComponent = new PopupFilm(card);
+
+  cardComponent.element.querySelector('.film-card__link').addEventListener('click', () => {
+    cardListElement.appendChild(cardPopupComponent.element);
+  });
+  cardPopupComponent.element.querySelector('.film-details__close-btn').addEventListener('click', () => {
+    cardListElement.removeChild(cardPopupComponent.element);
+  });
+
+  render(cardListElement, cardComponent.element, RenderPosition.BEFOREEND);
+};
+
 for (let i = 0; i < Math.min(cards.length, FILM_CARD_COUNT_PER_STEP); i++) {
-  render(filmListElement, new FilmCard(cards[i]).element, RenderPosition.BEFOREEND);
+  renderCard(filmListElement, cards[i]);
 }
 
 if (cards.length > FILM_CARD_COUNT_PER_STEP) {
@@ -44,7 +60,7 @@ if (cards.length > FILM_CARD_COUNT_PER_STEP) {
     evt.preventDefault();
     cards
       .slice(renderCount, renderCount + FILM_CARD_COUNT_PER_STEP)
-      .forEach((card) => render(filmListElement, new FilmCard(card).element, RenderPosition.BEFOREEND));
+      .forEach((card) => renderCard(filmListElement, card));
 
     renderCount += FILM_CARD_COUNT_PER_STEP;
 
@@ -53,8 +69,8 @@ if (cards.length > FILM_CARD_COUNT_PER_STEP) {
     }
   });
 }
-const footerElement = document.querySelector('.footer');
-for (let i = 0; FILM_CARD_COUNT; i++) {
-  render(footerElement, new PopupFilm(cards[i]).element, RenderPosition.BEFOREEND);
-}
 
+// const footerElement = document.querySelector('.footer');
+// for (let i = 0; i < FILM_CARD_COUNT; i++) {
+//   render(footerElement, new PopupFilm(cards[i]).element, RenderPosition.BEFOREEND);
+// }
