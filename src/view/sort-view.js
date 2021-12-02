@@ -1,8 +1,12 @@
 import { createElement } from '../render.js';
-const createFilterSortTemplate = () => (
-  '<section class="sort"></section>'
+const createSortViewTemplate = () => (
+  `<div class="sort">
+    <a href="#" class="sort__button sort__button--active">Sort by default</a>
+    <a href="#" class="sort__button">Sort by date</a>
+    <a href="#" class="sort__button">Sort by rating</a>
+  </div>`
 );
-export default class FilterSortView {
+export default class SortView {
   #element = null;
   #filters = null;
 
@@ -19,7 +23,7 @@ export default class FilterSortView {
   }
 
   get template() {
-    return createFilterSortTemplate(this.#filters);
+    return createSortViewTemplate(this.#filters);
   }
 
   removeElement() {

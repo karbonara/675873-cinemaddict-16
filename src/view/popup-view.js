@@ -1,5 +1,6 @@
 import { datePopup } from '../utils.js';
-export const createPopupFilmTemplate = (card) => {
+import { createElement } from '../render.js';
+const createPopupFilmTemplate = (card) => {
   const {
     title,
     description,
@@ -38,8 +39,7 @@ export const createPopupFilmTemplate = (card) => {
   <button type="button" class="film-details__control-button ${watchedClassName}" id="watched" name="watched">Already watched</button>
   <button type="button" class="film-details__control-button ${favoritesClassName}" id="favorite" name="favorite">Add to favorites</button>`;
 
-  const commentsList = `
-    <li class="film-details__comment">
+  const commentsList = `<li class="film-details__comment">
       <span class="film-details__comment-emoji">
         <img src="./images/emoji/${commentImg}" width="55" height="55" alt="emoji-smile">
       </span>
@@ -51,11 +51,9 @@ export const createPopupFilmTemplate = (card) => {
           <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>
-    </li>
-  `;
+    </li>`;
 
-  return `
-  <section class="film-details">
+  return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
     <div class="film-details__top-container">
       <div class="film-details__close">
@@ -159,3 +157,26 @@ export const createPopupFilmTemplate = (card) => {
   </form>
 </section>`;
 };
+export default class PopupFilmView {
+  #element = null;
+  #cards = null;
+  constructor(cards) {
+    this.#cards = cards;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createPopupFilmTemplate(this.#cards);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
