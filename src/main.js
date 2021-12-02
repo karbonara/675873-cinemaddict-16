@@ -35,13 +35,29 @@ const renderCard = (cardListElement, card) => {
   const cardComponent = new FilmCardView(card);
   const cardPopupComponent = new PopupFilmView(card);
   const body = document.body;
-  cardComponent.element.querySelector('.film-card__link').addEventListener('click', () => {
+
+  const appendPopup = () => {
     cardListElement.appendChild(cardPopupComponent.element);
+  };
+  const removePopup = () => {
+    cardListElement.removeChild(cardPopupComponent.element);
+  };
+  const onEscKeyDown = (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      evt.preventDefault();
+      removePopup();
+      body.classList.remove('hide-overflow');
+      document.removeEventListener('keydown', onEscKeyDown);
+    }
+  };
+  cardComponent.element.querySelector('.film-card__link').addEventListener('click', () => {
+    appendPopup();
     body.classList.add('hide-overflow');
+    document.addEventListener('keydown', onEscKeyDown);
   });
   cardPopupComponent.element.querySelector('.film-details__close-btn').addEventListener('click', () => {
-    cardListElement.removeChild(cardPopupComponent.element);
-    body.classList.remove('hide-overflow');
+    removePopup();
+    document.removeEventListener('keydown', onEscKeyDown);
   });
 
   render(cardListElement, cardComponent.element, RenderPosition.BEFOREEND);

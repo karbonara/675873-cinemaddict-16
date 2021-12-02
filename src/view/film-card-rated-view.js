@@ -1,4 +1,3 @@
-
 import { createElement } from '../render.js';
 
 const createFilmCardRatedTemplate = () => (
@@ -7,7 +6,7 @@ const createFilmCardRatedTemplate = () => (
   </section>`
 );
 
-export default class FilmCardRated {
+export default class FilmCardRatedView {
   #element = null;
   #cards = null;
   constructor(cards) {
