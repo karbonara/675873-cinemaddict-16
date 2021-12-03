@@ -36,7 +36,6 @@ const renderCard = (cardListElement, card) => {
   const cardComponent = new FilmCardView(card);
   const cardPopupComponent = new PopupFilmView(card);
   const body = document.body;
-
   const appendPopup = () => {
     cardListElement.appendChild(cardPopupComponent.element);
   };
@@ -61,38 +60,37 @@ const renderCard = (cardListElement, card) => {
     removePopup();
     body.classList.remove('hide-overflow');
   });
-
-
   render(cardListElement, cardComponent.element, RenderPosition.BEFOREEND);
 };
 
-for (let i = 0; i < Math.min(cards.length, FILM_CARD_COUNT_PER_STEP); i++) {
-  renderCard(filmListElement, cards[i]);
-}
+const renderCards = () => {
 
-// const renderCards = (cardContainer, itemCard) => {
-//   const cardsComponent = new FilmContainerView();
+  for (let i = 0; i < Math.min(cards.length, FILM_CARD_COUNT_PER_STEP); i++) {
+    renderCard(filmListElement, cards[i]);
+  }
 
-// };
-if (cards.length === 0 || cards.every((card) => card.isFavorite)) {
-  render(filmListElement, new LoadingView().element, RenderPosition.BEFOREEND);
-}
+  if (cards.length === 0) {
+    render(filmListElement, new LoadingView().element, RenderPosition.BEFOREEND);
+  }
 
-if (cards.length > FILM_CARD_COUNT_PER_STEP) {
-  let renderCount = FILM_CARD_COUNT_PER_STEP;
-  render(filmMainElement, new ShowMoreButtonView().element, RenderPosition.BEFOREEND);
 
-  const loadButton = filmMainElement.querySelector('.films-list__show-more');
-  loadButton.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    cards
-      .slice(renderCount, renderCount + FILM_CARD_COUNT_PER_STEP)
-      .forEach((card) => renderCard(filmListElement, card));
+  if (cards.length > FILM_CARD_COUNT_PER_STEP) {
+    let renderCount = FILM_CARD_COUNT_PER_STEP;
+    render(filmMainElement, new ShowMoreButtonView().element, RenderPosition.BEFOREEND);
 
-    renderCount += FILM_CARD_COUNT_PER_STEP;
+    const loadButton = filmMainElement.querySelector('.films-list__show-more');
+    loadButton.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      cards
+        .slice(renderCount, renderCount + FILM_CARD_COUNT_PER_STEP)
+        .forEach((card) => renderCard(filmListElement, card));
 
-    if (renderCount >= cards.length) {
-      loadButton.remove();
-    }
-  });
-}
+      renderCount += FILM_CARD_COUNT_PER_STEP;
+
+      if (renderCount >= cards.length) {
+        loadButton.remove();
+      }
+    });
+  }
+};
+renderCards();
