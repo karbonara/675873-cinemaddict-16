@@ -1,11 +1,8 @@
 import { createElement } from '../render.js';
-
-const createFilmCardRatedTemplate = () => (
-  `<section class="films-list films-list--extra">
-      <h2 class="films-list__title">Top rated</h2>
-    </section>`
+const createLoadingTemplate = () => (
+  '<h2 class="films-list__title">Loading...</h2>'
 );
-export default class FilmRatedView {
+export default class LoadingView {
   #element = null;
   #cards = null;
   constructor(cards) {
@@ -21,7 +18,7 @@ export default class FilmRatedView {
   }
 
   get template() {
-    return createFilmCardRatedTemplate(this.#cards);
+    return createLoadingTemplate(this.#cards);
   }
 
   removeElement() {
