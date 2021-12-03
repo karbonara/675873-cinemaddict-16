@@ -6,6 +6,7 @@ import SortView from './view/sort-view.js';
 import ShowMoreButtonView from './view/show-more-view.js';
 import HeaderProfileView from './view/header-profile-view.js';
 import FilmContainerView from './view/film-view.js';
+import LoadingView from './view/loading-view.js';
 import { render, RenderPosition } from './render.js';
 import { generateCard } from './mock/card-movie.js';
 import { generateFilter } from './mock/filter.js';
@@ -56,15 +57,25 @@ const renderCard = (cardListElement, card) => {
     document.addEventListener('keydown', onEscKeyDown);
   });
   cardPopupComponent.element.querySelector('.film-details__close-btn').addEventListener('click', () => {
-    removePopup();
     document.removeEventListener('keydown', onEscKeyDown);
+    removePopup();
+    body.classList.remove('hide-overflow');
   });
+
 
   render(cardListElement, cardComponent.element, RenderPosition.BEFOREEND);
 };
 
 for (let i = 0; i < Math.min(cards.length, FILM_CARD_COUNT_PER_STEP); i++) {
   renderCard(filmListElement, cards[i]);
+}
+
+// const renderCards = (cardContainer, itemCard) => {
+//   const cardsComponent = new FilmContainerView();
+
+// };
+if (cards.length === 0 || cards.every((card) => card.isFavorite)) {
+  render(filmListElement, new LoadingView().element, RenderPosition.BEFOREEND);
 }
 
 if (cards.length > FILM_CARD_COUNT_PER_STEP) {
