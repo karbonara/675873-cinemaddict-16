@@ -1,5 +1,5 @@
 import { datePopup } from '../utils.js';
-import { createElement } from '../render.js';
+import AbstractView from './abstract-view.js';
 const createPopupFilmTemplate = (card) => {
   const {
     title,
@@ -157,26 +157,15 @@ const createPopupFilmTemplate = (card) => {
   </form>
 </section>`;
 };
-export default class PopupFilmView {
-  #element = null;
+export default class PopupFilmView extends AbstractView {
   #cards = null;
   constructor(cards) {
+    super();
     this.#cards = cards;
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
   get template() {
-    return createPopupFilmTemplate(this.#cards);
-  }
 
-  removeElement() {
-    this.#element = null;
+    return createPopupFilmTemplate(this.#cards);
   }
 }

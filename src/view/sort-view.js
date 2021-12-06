@@ -1,4 +1,4 @@
-import AbstractView from "./abstract-view";
+import AbstractView from './abstract-view';
 const createSortViewTemplate = () => (
   `<div class="sort">
     <a href="#" class="sort__button sort__button--active">Sort by default</a>

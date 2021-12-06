@@ -1,6 +1,5 @@
 import { date } from '../utils.js';
-import { createElement } from '../render.js';
-
+import AbstractView from './abstract-view.js';
 const createFilmCardTemplate = (card) => {
   const {
     title,
@@ -49,27 +48,15 @@ const createFilmCardTemplate = (card) => {
           </div>
     </article>`;
 };
-
-export default class FilmCardView {
-  #element = null;
+export default class FilmCardView extends AbstractView {
   #cards = null;
   constructor(cards) {
+    super();
     this.#cards = cards;
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
   get template() {
-    return createFilmCardTemplate(this.#cards);
-  }
 
-  removeElement() {
-    this.#element = null;
+    return createFilmCardTemplate(this.#cards);
   }
 }

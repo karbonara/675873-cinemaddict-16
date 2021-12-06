@@ -1,5 +1,4 @@
-import AbstractView from "./abstract-view";
-
+import AbstractView from './abstract-view';
 const createFilmCardRatedTemplate = () => (
   `<section class="films-list films-list--extra">
       <h2 class="films-list__title">Top rated</h2>
