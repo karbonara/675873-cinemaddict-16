@@ -73,7 +73,6 @@ const renderCards = () => {
     render(filmListElement, new LoadingView().element, RenderPosition.BEFOREEND);
   }
 
-
   if (cards.length > FILM_CARD_COUNT_PER_STEP) {
     let renderCount = FILM_CARD_COUNT_PER_STEP;
     render(filmMainElement, new ShowMoreButtonView().element, RenderPosition.BEFOREEND);

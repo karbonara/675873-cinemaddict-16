@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from "./abstract-view";
 
 const createSiteMenuTemplate = () => (
   `<section class="header__profile profile">
@@ -7,22 +7,8 @@ const createSiteMenuTemplate = () => (
     </section>`
 );
 
-export default class HeaderProfileView {
-  #element = null;
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
+export default class HeaderProfileView extends AbstractView {
   get template() {
     return createSiteMenuTemplate();
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

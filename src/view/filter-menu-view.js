@@ -1,28 +1,10 @@
-import { createElement } from '../render.js';
+import AbstractView from "./abstract-view";
 const createFilterSortTemplate = () => (
   '<section class="sort"></section>'
 );
-export default class FilterSortView {
-  #element = null;
+export default class FilterSortView extends AbstractView {
   #filters = null;
-
-  constructor(filters) {
-    this.#filters = filters;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
   get template() {
     return createFilterSortTemplate(this.#filters);
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
