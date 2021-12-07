@@ -1,7 +1,6 @@
 import SiteMenuView from './view/site-menu-view.js';
 import PopupFilmView from './view/popup-view.js';
 import FilmCardView from './view/film-card-view.js';
-import FilterSortView from './view/filter-menu-view.js';
 import SortView from './view/sort-view.js';
 import ShowMoreButtonView from './view/show-more-view.js';
 import HeaderProfileView from './view/header-profile-view.js';
@@ -23,9 +22,7 @@ render(siteMainElement, new SiteMenuView(filters), RenderPosition.BEFOREEND);
 
 render(siteNavigationElement, new HeaderProfileView(), RenderPosition.BEFOREEND);
 
-const filterSortComponent = new FilterSortView();
-render(siteMainElement, filterSortComponent, RenderPosition.BEFOREEND);
-render(filterSortComponent, new SortView(), RenderPosition.BEFOREEND);
+render(siteMainElement, new SortView(), RenderPosition.BEFOREEND);
 
 render(siteMainElement, new FilmContainerView(), RenderPosition.BEFOREEND);
 
@@ -50,12 +47,12 @@ const renderCard = (cardListElement, card) => {
       document.removeEventListener('keydown', onEscKeyDown);
     }
   };
-  cardComponent.setClickHandler(() => {
+  cardComponent.cardClickHandler(() => {
     appendPopup();
     body.classList.add('hide-overflow');
     document.addEventListener('keydown', onEscKeyDown);
   });
-  cardPopupComponent.setClickHandlerClose(() => {
+  cardPopupComponent.popupCloseHandler(() => {
     document.removeEventListener('keydown', onEscKeyDown);
     removePopup();
     body.classList.remove('hide-overflow');
