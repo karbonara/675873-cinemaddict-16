@@ -37,10 +37,10 @@ const renderCard = (cardListElement, card) => {
   const cardPopupComponent = new PopupFilmView(card);
   const body = document.body;
   const appendPopup = () => {
-    cardListElement.appendChild(cardPopupComponent);
+    cardListElement.appendChild(cardPopupComponent.element);
   };
   const removePopup = () => {
-    cardListElement.removeChild(cardPopupComponent);
+    cardListElement.removeChild(cardPopupComponent.element);
   };
   const onEscKeyDown = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
