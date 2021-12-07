@@ -1,13 +1,12 @@
 import SiteMenuView from './view/site-menu-view.js';
 import PopupFilmView from './view/popup-view.js';
 import FilmCardView from './view/film-card-view.js';
-import FilterSortView from './view/filter-menu-view.js';
 import SortView from './view/sort-view.js';
 import ShowMoreButtonView from './view/show-more-view.js';
 import HeaderProfileView from './view/header-profile-view.js';
 import FilmContainerView from './view/film-view.js';
 import LoadingView from './view/loading-view.js';
-import { render, RenderPosition } from './render.js';
+import { render, RenderPosition } from './utils/render.js';
 import { generateCard } from './mock/card-movie.js';
 import { generateFilter } from './mock/filter.js';
 
@@ -19,15 +18,13 @@ const filters = generateFilter(cards);
 const siteMainElement = document.querySelector('.main');
 const siteNavigationElement = document.querySelector('.header');
 
-render(siteMainElement, new SiteMenuView(filters).element, RenderPosition.BEFOREEND);
+render(siteMainElement, new SiteMenuView(filters), RenderPosition.BEFOREEND);
 
-render(siteNavigationElement, new HeaderProfileView().element, RenderPosition.BEFOREEND);
+render(siteNavigationElement, new HeaderProfileView(), RenderPosition.BEFOREEND);
 
-const filterSortComponent = new FilterSortView();
-render(siteMainElement, filterSortComponent.element, RenderPosition.BEFOREEND);
-render(filterSortComponent.element, new SortView().element, RenderPosition.BEFOREEND);
+render(siteMainElement, new SortView(), RenderPosition.BEFOREEND);
 
-render(siteMainElement, new FilmContainerView().element, RenderPosition.BEFOREEND);
+render(siteMainElement, new FilmContainerView(), RenderPosition.BEFOREEND);
 
 const filmMainElement = siteMainElement.querySelector('.films-list');
 const filmListElement = filmMainElement.querySelector('.films-list__container');
@@ -50,17 +47,18 @@ const renderCard = (cardListElement, card) => {
       document.removeEventListener('keydown', onEscKeyDown);
     }
   };
-  cardComponent.element.querySelector('.film-card__link').addEventListener('click', () => {
+  cardComponent.cardClickHandler(() => {
     appendPopup();
     body.classList.add('hide-overflow');
     document.addEventListener('keydown', onEscKeyDown);
   });
-  cardPopupComponent.element.querySelector('.film-details__close-btn').addEventListener('click', () => {
+  cardPopupComponent.popupCloseHandler(() => {
     document.removeEventListener('keydown', onEscKeyDown);
     removePopup();
     body.classList.remove('hide-overflow');
   });
-  render(cardListElement, cardComponent.element, RenderPosition.BEFOREEND);
+
+  render(cardListElement, cardComponent, RenderPosition.BEFOREEND);
 };
 
 const renderCards = () => {
@@ -70,13 +68,12 @@ const renderCards = () => {
   }
 
   if (cards.length === 0) {
-    render(filmListElement, new LoadingView().element, RenderPosition.BEFOREEND);
+    render(filmListElement, new LoadingView(), RenderPosition.BEFOREEND);
   }
-
 
   if (cards.length > FILM_CARD_COUNT_PER_STEP) {
     let renderCount = FILM_CARD_COUNT_PER_STEP;
-    render(filmMainElement, new ShowMoreButtonView().element, RenderPosition.BEFOREEND);
+    render(filmMainElement, new ShowMoreButtonView(), RenderPosition.BEFOREEND);
 
     const loadButton = filmMainElement.querySelector('.films-list__show-more');
     loadButton.addEventListener('click', (evt) => {

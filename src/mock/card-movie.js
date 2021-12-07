@@ -1,4 +1,5 @@
-import { getRandomInteger, getRating, generateDate } from '../utils.js';
+import { getRandomInteger, generateDate } from '../utils/common.js';
+import { getRating } from '../utils/task.js';
 
 const generateTitle = () => {
   const titles = [
