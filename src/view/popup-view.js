@@ -1,4 +1,4 @@
-import { datePopup } from '../utils.js';
+import { datePopup } from '../utils/task.js';
 import AbstractView from './abstract-view.js';
 const createPopupFilmTemplate = (card) => {
   const {
@@ -167,5 +167,15 @@ export default class PopupFilmView extends AbstractView {
   get template() {
 
     return createPopupFilmTemplate(this.#cards);
+  }
+
+  setClickHandlerClose = (callback) => {
+    this._callback.editClick = callback;
+    this.element.querySelector('.film-details__close-btn').addEventListener('click', this.#editClickHandlerClose);
+  }
+
+  #editClickHandlerClose = (evt) => {
+    evt.preventDefault();
+    this._callback.editClick();
   }
 }

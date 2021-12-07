@@ -1,4 +1,4 @@
-import { date } from '../utils.js';
+import { date } from '../utils/task.js';
 import AbstractView from './abstract-view.js';
 const createFilmCardTemplate = (card) => {
   const {
@@ -58,5 +58,15 @@ export default class FilmCardView extends AbstractView {
   get template() {
 
     return createFilmCardTemplate(this.#cards);
+  }
+
+  setClickHandler = (callback) => {
+    this._callback.editClick = callback;
+    this.element.querySelector('.film-card__link').addEventListener('click', this.#editClickHandler);
+  }
+
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.editClick();
   }
 }
