@@ -30,8 +30,10 @@ const filmMainElement = siteMainElement.querySelector('.films-list');
 const filmListElement = filmMainElement.querySelector('.films-list__container');
 
 const renderCard = (cardListElement, card) => {
+  // #renderCard
   const cardComponent = new FilmCardView(card);
   const cardPopupComponent = new PopupFilmView(card);
+
   const body = document.body;
   const appendPopup = () => {
     cardListElement.appendChild(cardPopupComponent.element);
@@ -63,14 +65,17 @@ const renderCard = (cardListElement, card) => {
 
 const renderCards = () => {
 
+  // #renderCards
   for (let i = 0; i < Math.min(cards.length, FILM_CARD_COUNT_PER_STEP); i++) {
     renderCard(filmListElement, cards[i]);
   }
 
+  // #renderLoading
   if (cards.length === 0) {
     render(filmListElement, new LoadingView(), RenderPosition.BEFOREEND);
   }
 
+  // #renderShowMoreButton
   if (cards.length > FILM_CARD_COUNT_PER_STEP) {
     let renderCount = FILM_CARD_COUNT_PER_STEP;
     render(filmMainElement, new ShowMoreButtonView(), RenderPosition.BEFOREEND);
