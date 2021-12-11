@@ -18,6 +18,8 @@ export default class MovieListPresenter {
   #sortComponent = new SortView();
   #loadComponent = new LoadingView();
 
+  #showMoreButtonComponent = new ShowMoreButtonView();
+
   #cardFilms = [];
 
   constructor(cardContainer) {
@@ -28,13 +30,18 @@ export default class MovieListPresenter {
     this.#cardFilms = [...cardFilms];
     // Метод для инициализации (начала работы) модуля,
     // малая часть текущей функции renderBoard в main.js
+
+    render(this.#cardContainer, this.#cardComponent, RenderPosition.BEFOREEND);
+
+    this.#renderCard();
   }
 
+  // Сортировка
   #renderSort = () => {
-
+    render(siteMainElement, this.#sortComponent, RenderPosition.BEFOREEND);
   }
 
-  // Создание карточки и попап (renderCard в main.js)
+  // Создание карточки и попапа (renderCard в main.js)
   #renderCard = (card) => {
     const cardComponent = new FilmCardView(card);
     const cardPopupComponent = new PopupFilmView(card);
@@ -65,39 +72,39 @@ export default class MovieListPresenter {
       body.classList.remove('hide-overflow');
     });
 
-    render(cardListElement, cardComponent, RenderPosition.BEFOREEND);
+    render(this.#cardContainer, this.#cardComponent, RenderPosition.BEFOREEND);
   }
 
   // Отрисовка N фильмов (карточек)
   #renderCards = () => {
-    for (let i = 0; i < Math.min(cards.length, FILM_CARD_COUNT_PER_STEP); i++) {
-      renderCard(filmListElement, cards[i]);
+    for (let i = 0; i < Math.min(this.#cardFilms.length, FILM_CARD_COUNT_PER_STEP); i++) {
+      renderCard(filmListElement, this.#cardFilms[i]);
     }
   }
 
   // Заглушка
   #renderLoading = () => {
-    if (cards.length === 0) {
-      render(filmListElement, new LoadingView(), RenderPosition.BEFOREEND);
+    if (this.#cardFilms.length === 0) {
+      render(filmListElement, this.#loadComponent, RenderPosition.BEFOREEND);
     }
   }
 
   // Кнопка отрисовки новых фильмов (карточек)
   #renderShowMoreButton = () => {
-    if (cards.length > FILM_CARD_COUNT_PER_STEP) {
+    if (this.#cardFilms.length > FILM_CARD_COUNT_PER_STEP) {
       let renderCount = FILM_CARD_COUNT_PER_STEP;
-      render(filmMainElement, new ShowMoreButtonView(), RenderPosition.BEFOREEND);
+      render(filmMainElement, this.#showMoreButtonComponent, RenderPosition.BEFOREEND);
 
       const loadButton = filmMainElement.querySelector('.films-list__show-more');
       loadButton.addEventListener('click', (evt) => {
         evt.preventDefault();
-        cards
+        this.#cardFilms
           .slice(renderCount, renderCount + FILM_CARD_COUNT_PER_STEP)
           .forEach((card) => renderCard(filmListElement, card));
 
         renderCount += FILM_CARD_COUNT_PER_STEP;
 
-        if (renderCount >= cards.length) {
+        if (renderCount >= this.#cardFilms.length) {
           loadButton.remove();
         }
       });
