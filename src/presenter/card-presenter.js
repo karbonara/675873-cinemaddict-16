@@ -1,5 +1,5 @@
-import PopupFilmView from '../view/popup-view.js';
-import FilmCardView from '../view/film-card-view.js';
+// import PopupFilmView from '../view/popup-view.js';
+// import FilmCardView from '../view/film-card-view.js';
 import SortView from '../view/sort-view.js';
 import ShowMoreButtonView from '../view/show-more-view.js';
 import FilmContainerView from '../view/film-view.js';
@@ -38,7 +38,7 @@ export default class MovieListPresenter {
   }
 
   // Создание карточки и попапа (renderCard в main.js)
-  #renderCard = (card) => {
+  #renderCard = () => {
     // const cardComponent = new FilmCardView(card);
     // const cardPopupComponent = new PopupFilmView(card);
 
@@ -76,7 +76,7 @@ export default class MovieListPresenter {
   // Отрисовка N фильмов (карточек)
   #renderCards = () => {
     for (let i = 0; i < Math.min(this.#cardFilms.length, FILM_CARD_COUNT_PER_STEP); i++) {
-      renderCard(this.#cardComponent, this.#cardFilms[i]);
+      render(this.#cardComponent, this.#cardFilms[i]);
     }
     // this.#cardFilms
     //   .slice(from, to)
