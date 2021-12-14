@@ -1,14 +1,6 @@
 import SiteMenuView from './view/site-menu-view.js';
-// import PopupFilmView from './view/popup-view.js';
-// import FilmCardView from './view/film-card-view.js';
-// import SortView from './view/sort-view.js';
-// import ShowMoreButtonView from './view/show-more-view.js';
 import HeaderProfileView from './view/header-profile-view.js';
-// import FilmContainerView from './view/film-view.js';
-// import LoadingView from './view/loading-view.js';
-
 import MovieListPresenter from './presenter/card-presenter.js';
-
 import { render, RenderPosition } from './utils/render.js';
 import { generateCard } from './mock/card-movie.js';
 import { generateFilter } from './mock/filter.js';
@@ -24,10 +16,6 @@ const filters = generateFilter(cards);
 const siteMainElement = document.querySelector('.main');
 const siteNavigationElement = document.querySelector('.header');
 // ----
-
-render(siteMainElement, new SiteMenuView(filters), RenderPosition.BEFOREEND);
-
-render(siteNavigationElement, new HeaderProfileView(), RenderPosition.BEFOREEND);
 
 // #renderSort
 // render(siteMainElement, new SortView(), RenderPosition.BEFOREEND);
@@ -106,4 +94,6 @@ render(siteNavigationElement, new HeaderProfileView(), RenderPosition.BEFOREEND)
 // renderCards();
 
 const cardPresenter = new MovieListPresenter(siteMainElement);
+render(siteMainElement, new SiteMenuView(filters), RenderPosition.BEFOREEND);
+render(siteNavigationElement, new HeaderProfileView(), RenderPosition.BEFOREEND);
 cardPresenter.init(cards);

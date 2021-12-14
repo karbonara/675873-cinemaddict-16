@@ -1,5 +1,5 @@
 // import PopupFilmView from '../view/popup-view.js';
-// import FilmCardView from '../view/film-card-view.js';
+import FilmCardView from '../view/film-card-view.js';
 import SortView from '../view/sort-view.js';
 import ShowMoreButtonView from '../view/show-more-view.js';
 import FilmContainerView from '../view/film-view.js';
@@ -28,8 +28,9 @@ export default class MovieListPresenter {
     // малая часть текущей функции renderBoard в main.js
 
     render(this.#cardContainer, this.#cardComponent, RenderPosition.BEFOREEND);
-
-    this.#renderCard();
+    // this.#renderSort();
+    this.#renderCards();
+    // this.#renderLoading();
   }
 
   // Сортировка
@@ -38,8 +39,8 @@ export default class MovieListPresenter {
   }
 
   // Создание карточки и попапа (renderCard в main.js)
-  #renderCard = () => {
-    // const cardComponent = new FilmCardView(card);
+  #renderCard = (card) => {
+    const filmComponent = new FilmCardView(card);
     // const cardPopupComponent = new PopupFilmView(card);
 
     // const body = document.body;
@@ -57,7 +58,7 @@ export default class MovieListPresenter {
     //     document.removeEventListener('keydown', onEscKeyDown);
     //   }
     // };
-    // cardComponent.cardClickHandler(() => {
+    // filmComponent.cardClickHandler(() => {
     //   appendPopup();
     //   body.classList.add('hide-overflow');
     //   document.addEventListener('keydown', onEscKeyDown);
@@ -67,27 +68,23 @@ export default class MovieListPresenter {
     //   removePopup();
     //   body.classList.remove('hide-overflow');
     // });
-
-    this.#renderSort();
-    render(this.#cardContainer, this.#cardFilms, RenderPosition.BEFOREEND);
-
+    render(this.#cardComponent, filmComponent, RenderPosition.BEFOREEND);
   }
 
   // Отрисовка N фильмов (карточек)
-  #renderCards = () => {
-    for (let i = 0; i < Math.min(this.#cardFilms.length, FILM_CARD_COUNT_PER_STEP); i++) {
-      render(this.#cardComponent, this.#cardFilms[i]);
-    }
-    // this.#cardFilms
-    //   .slice(from, to)
-    //   .forEach((card) => this.#renderCard(card));
+  #renderCards = (from, to) => {
+    this.#cardFilms
+      .slice(from, to)
+      .forEach((card) => this.#renderCard(card));
+    this.#renderShowMoreButton();
   }
 
   // Заглушка
   #renderLoading = () => {
-    if (this.#cardFilms.length === 0) {
+    if (this.#renderCards.length === 0) {
       render(this.#cardComponent, this.#loadComponent, RenderPosition.BEFOREEND);
     }
+    // render(this.#cardComponent, this.#loadComponent, RenderPosition.BEFOREEND);
   }
 
   // Кнопка отрисовки новых фильмов (карточек)
