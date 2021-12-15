@@ -47,7 +47,7 @@ export default class MovieListPresenter {
       replace(cardPopupComponent, filmComponent);
     };
     const removePopup = () => {
-      remove(filmComponent, cardPopupComponent);
+      remove(cardPopupComponent, filmComponent);
     };
     const onEscKeyDown = (evt) => {
       if (evt.key === 'Escape' || evt.key === 'Esc') {
