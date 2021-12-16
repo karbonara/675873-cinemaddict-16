@@ -6,16 +6,13 @@ import FilmContainerView from '../view/film-view.js';
 import LoadingView from '../view/loading-view.js';
 import { render, RenderPosition, replace, remove } from '../utils/render.js';
 
-
 const FILM_CARD_COUNT_PER_STEP = 8;
 
 export default class MovieListPresenter {
   #cardContainer = null;
-
   #cardsContainerComponent = new FilmContainerView();
   #sortComponent = new SortView();
   #loadComponent = new LoadingView();
-
   #cardFilms = [];
 
   constructor(cardContainer) {
@@ -42,7 +39,6 @@ export default class MovieListPresenter {
     const filmComponent = new FilmCardView(card);
     const cardPopupComponent = new PopupFilmView(card);
     const body = document.body;
-
     const appendPopup = () => {
       replace(cardPopupComponent, filmComponent);
     };
@@ -98,7 +94,6 @@ export default class MovieListPresenter {
         this.#cardFilms
           .slice(renderCount, renderCount + FILM_CARD_COUNT_PER_STEP)
           .forEach((card) => this.#renderCard(this.#cardContainer, card));
-
         renderCount += FILM_CARD_COUNT_PER_STEP;
         if (renderCount >= this.#cardFilms.length) {
           loadButton.element.remove();
