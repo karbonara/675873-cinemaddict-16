@@ -12,7 +12,6 @@ export default class FilmListPresenter {
   #cardsContainerComponent = new FilmContainerView();
   #sortComponent = new SortView();
   #loadComponent = new LoadingView();
-  // #showMoreButtonView = new ShowMoreButtonView();
   #renderedCardCount = FILM_CARD_COUNT_PER_STEP;
   #cardFilms = [];
 
@@ -42,6 +41,7 @@ export default class FilmListPresenter {
       .forEach((card) => this.#renderCard(card));
     this.#renderShowMoreButton();
     this.#renderSort();
+    this.#renderLoading();
   }
 
   // Сортировка
