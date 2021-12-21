@@ -3,7 +3,8 @@ import ShowMoreButtonView from '../view/show-more-view.js';
 import FilmContainerView from '../view/film-view.js';
 import LoadingView from '../view/loading-view.js';
 import FilmPresenter from './film-presenter.js';
-import { render, RenderPosition } from '../utils/render.js';
+import { updateItem } from '../utils/common.js';
+import { remove, render, RenderPosition } from '../utils/render.js';
 
 const FILM_CARD_COUNT_PER_STEP = 8;
 
@@ -13,7 +14,10 @@ export default class FilmListPresenter {
   #sortComponent = new SortView();
   #loadComponent = new LoadingView();
   #renderedCardCount = FILM_CARD_COUNT_PER_STEP;
+  #showMoreButton = new ShowMoreButtonView();
   #cardFilms = [];
+
+  #filmPresenter = new Map();
 
   constructor(cardContainer) {
     this.#cardContainer = cardContainer;
@@ -26,12 +30,18 @@ export default class FilmListPresenter {
 
     render(this.#cardContainer, this.#cardsContainerComponent, RenderPosition.BEFOREEND);
 
-    this.#renderCard();
+    this.#renderCards();
+  }
+
+  #handleFilmChange = (updatedFilm) => {
+    this.#cardFilms = updateItem(this.#cardFilms, updatedFilm);
+    this.#filmPresenter.get(updatedFilm.id).init(updatedFilm);
   }
 
   #renderCard = (card) => {
-    const filmPresenter = new FilmPresenter(this.#cardsContainerComponent);
+    const filmPresenter = new FilmPresenter(this.#cardsContainerComponent, this.#handleFilmChange);
     filmPresenter.init(card);
+    this.#filmPresenter.set(card.id, filmPresenter);
   }
 
   // Отрисовка N фильмов (карточек)
@@ -44,6 +54,13 @@ export default class FilmListPresenter {
     this.#renderLoading();
   }
 
+  #clearFilmList = () => {
+    this.#filmPresenter.forEach((presenter) => presenter.destroy());
+    this.#filmPresenter.clear();
+    this.#renderedCardCount = FILM_CARD_COUNT_PER_STEP;
+    remove(this.#showMoreButton);
+  }
+
   // Сортировка
   #renderSort = () => {
     render(this.#cardsContainerComponent.element.querySelector('.films-list'), this.#sortComponent, RenderPosition.BEFOREBEGIN);
@@ -51,7 +68,7 @@ export default class FilmListPresenter {
 
   // Заглушка
   #renderLoading = () => {
-    if (this.#renderCards.length === 0) {
+    if (this.#cardFilms.length === 0) {
       render(this.#cardsContainerComponent.element.querySelector('.films-list'), this.#loadComponent, RenderPosition.BEFOREEND);
     }
   }
