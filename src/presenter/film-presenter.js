@@ -60,7 +60,7 @@ export default class FilmPresenter {
     const cardPopupComponent = new PopupFilmView(card);
     const body = document.body;
     const appendPopup = () => {
-      replace(cardPopupComponent, filmComponent);
+      replace(filmComponent, cardPopupComponent);
     };
     const removePopup = () => {
       remove(cardPopupComponent, filmComponent);
