@@ -55,8 +55,8 @@ export const replace = (newElement, oldElement) => {
     throw new Error('Parent element doesn\'t exist');
   }
 
-  // parent.replaceChild(newChild, oldChild);
-  parent.appendChild(newChild, oldChild);
+  parent.replaceChild(newChild, oldChild);
+  // parent.appendChild(newChild, oldChild);
 };
 
 export const remove = (component) => {

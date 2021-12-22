@@ -60,9 +60,9 @@ export default class FilmCardView extends AbstractView {
     return createFilmCardTemplate(this.#cards);
   }
 
-  cardClickHandler = (callback) => {
-    this._callback.editClick = callback;
-    this.element.querySelector('.film-card__link').addEventListener('click', this.#editClickHandler);
+  setFilmClickHandler = (callback) => {
+    this._callback.filmClick = callback;
+    this.element.querySelector('.film-card__link').addEventListener('click', this.#filmClickHandler);
   }
 
   setFavoriteClickHandler = (callback) => {
@@ -80,9 +80,9 @@ export default class FilmCardView extends AbstractView {
     this.element.querySelector('.film-card__controls-item--add-to-watchlist').addEventListener('click', this.#watchedListClickHandler);
   }
 
-  #editClickHandler = (evt) => {
+  #filmClickHandler = (evt) => {
     evt.preventDefault();
-    this._callback.editClick();
+    this._callback.filmClick();
   }
 
   #favoriteClickHandler = (evt) => {
