@@ -56,7 +56,6 @@ export const replace = (newElement, oldElement) => {
   }
 
   parent.replaceChild(newChild, oldChild);
-  // parent.appendChild(newChild, oldChild);
 };
 
 export const remove = (component) => {

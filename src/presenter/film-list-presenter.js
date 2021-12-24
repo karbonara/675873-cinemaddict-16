@@ -38,8 +38,12 @@ export default class FilmListPresenter {
     this.#filmPresenter.get(updatedFilm.id).init(updatedFilm);
   }
 
+  #handleModeChange = () => {
+    this.#filmPresenter.forEach((presenter) => presenter.resetView());
+  }
+
   #renderCard = (card) => {
-    const filmPresenter = new FilmPresenter(this.#cardsContainerComponent, this.#handleFilmChange);
+    const filmPresenter = new FilmPresenter(this.#cardsContainerComponent, this.#handleFilmChange, this.#handleModeChange);
     filmPresenter.init(card);
     this.#filmPresenter.set(card.id, filmPresenter);
   }
@@ -74,10 +78,6 @@ export default class FilmListPresenter {
   }
 
   // Кнопка отрисовки новых фильмов (карточек)
-  // #handleShowMoreButtonClick = () => {
-  //   this.#renderCards(this.#renderedCardCount, this.renderedCardCount + FILM_CARD_COUNT_PER_STEP);
-  //   this.renderedCardCount += FILM_CARD_COUNT_PER_STEP;
-  // }
   #renderShowMoreButton = () => {
     if (this.#cardFilms.length > this.#renderedCardCount) {
       let renderCount = this.#renderedCardCount;

@@ -1,18 +1,29 @@
 import PopupFilmView from '../view/popup-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import { render, RenderPosition, replace, remove } from '../utils/render.js';
+
+const Mode = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING',
+};
+
 export default class FilmPresenter {
   #filmListContainer = null;
   #changeData = null;
+  #changeMode = null;
+
+  #footer = document.querySelector('footer');
 
   #filmComponent = null;
   #filmPopupComponent = null;
 
   #film = null;
+  #mode = Mode.DEFAULT
 
-  constructor(filmListContainer, changeData) {
+  constructor(filmListContainer, changeData, changeMode) {
     this.#filmListContainer = filmListContainer;
     this.#changeData = changeData;
+    this.#changeMode = changeMode;
   }
 
   init = (film) => {
@@ -31,18 +42,16 @@ export default class FilmPresenter {
     this.#filmComponent.setWatchedClickHandler(this.#handleWatchedClick);
     this.#filmComponent.setWatchedListClickHandler(this.#handleWatchedListClick);
 
-    // this.#renderCard(film);
-
     if (prevFilmComponent === null || prevFilmPopupComponent === null) {
       render(this.#filmListContainer.element.querySelector('.films-list__container'), this.#filmComponent, RenderPosition.BEFOREEND);
       return;
     }
 
-    if (this.#filmListContainer.element.contains(prevFilmComponent.element)) {
+    if (this.#mode === Mode.DEFAULT) {
       replace(this.#filmComponent, prevFilmComponent);
     }
 
-    if (this.#filmListContainer.element.contains(prevFilmPopupComponent.element)) {
+    if (this.#mode === Mode.EDITING) {
       replace(this.#filmPopupComponent, prevFilmPopupComponent);
     }
 
@@ -55,67 +64,45 @@ export default class FilmPresenter {
     remove(this.#filmPopupComponent);
   }
 
-  // #renderCard = (card) => {
-  //   const filmComponent = new FilmCardView(card);
-  //   const cardPopupComponent = new PopupFilmView(card);
-  //   const body = document.body;
-  //   const appendPopup = () => {
-  //     replace(filmComponent, cardPopupComponent);
-  //   };
-  //   const removePopup = () => {
-  //     remove(cardPopupComponent, filmComponent);
-  //   };
-  //   const onEscKeyDown = (evt) => {
-  //     if (evt.key === 'Escape' || evt.key === 'Esc') {
-  //       evt.preventDefault();
-  //       removePopup();
-  //       body.classList.remove('hide-overflow');
-  //       document.removeEventListener('keydown', onEscKeyDown);
-  //     }
-  //   };
-  //   filmComponent.setFilmClickHandler(() => {
-  //     body.classList.add('hide-overflow');
-  //     appendPopup();
-  //     document.addEventListener('keydown', onEscKeyDown());
-  //   });
-  //   cardPopupComponent.popupClickeHandler(() => {
-  //     document.removeEventListener('keydown', onEscKeyDown());
-  //     removePopup();
-  //     body.classList.remove('hide-overflow');
-  //   });
-  // }
-
-  #replaceToFilm = () => {
-    const body = document.body;
-    replace(this.#filmPopupComponent, this.#filmComponent);
-    body.classList.add('hide-overflow');
-    document.addEventListener('keydown', this.#escKeyDownHandler);
+  resetView = () => {
+    if (this.#mode !== Mode.DEFAULT) {
+      this.#renderPopup();
+    }
   }
 
-  #replacePopupToFilm = () => {
+  #renderFilm = () => {
     const body = document.body;
-    replace(this.#filmComponent, this.#filmPopupComponent);
+    render(this.#footer, this.#filmPopupComponent, RenderPosition.BEFOREEND);
+    body.classList.add('hide-overflow');
     document.addEventListener('keydown', this.#escKeyDownHandler);
+    this.#changeMode();
+    this.#mode = Mode.EDITING;
+  }
+
+  #renderPopup = () => {
+    const body = document.body;
+    remove(this.#filmPopupComponent);
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
     body.classList.remove('hide-overflow');
+    this.#mode = Mode.DEFAULT;
   }
 
   #escKeyDownHandler = (evt) => {
     const body = document.body;
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
-      this.#replacePopupToFilm();
+      this.#renderPopup();
       body.classList.remove('hide-overflow');
-      // document.removeEventListener('keydown', onEscKeyDown);
     }
   }
 
   #handleFilmClick = () => {
-    this.#replaceToFilm();
+    this.#renderFilm();
   }
 
   #handleFilmPopupClick = (film) => {
     this.#changeData(film);
-    this.#replacePopupToFilm();
+    this.#renderPopup();
   }
 
   #handleFavoriteClick = () => {
