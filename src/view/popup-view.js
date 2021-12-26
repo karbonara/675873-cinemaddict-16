@@ -102,8 +102,6 @@ const createPopupFilmTemplate = (card) => {
             <tr class="film-details__row">
               <td class="film-details__term">Genres</td>
               <td class="film-details__cell">
-                <span class="film-details__genre">${genre}</span>
-                <span class="film-details__genre">${genre}</span>
                 <span class="film-details__genre">${genre}</span></td>
             </tr>
           </table>
@@ -177,5 +175,35 @@ export default class PopupFilmView extends AbstractView {
   #popupClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.popupClick(this.#cards);
+  }
+
+  setFavoriteClickHandler = (callback) => {
+    this._callback.favoriteClick = callback;
+    this.element.querySelector('.film-details__control-button--favorite').addEventListener('click', this.#favoriteClickHandler);
+  }
+
+  setWatchedClickHandler = (callback) => {
+    this._callback.watchedClick = callback;
+    this.element.querySelector('.film-details__control-button--watched').addEventListener('click', this.#watchedClickHandler);
+  }
+
+  setWatchedListClickHandler = (callback) => {
+    this._callback.watchedListClick = callback;
+    this.element.querySelector('.film-details__control-button--watchlist').addEventListener('click', this.#watchedListClickHandler);
+  }
+
+  #favoriteClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.favoriteClick();
+  }
+
+  #watchedClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.watchedClick();
+  }
+
+  #watchedListClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.watchedListClick();
   }
 }

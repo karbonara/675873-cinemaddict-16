@@ -42,6 +42,10 @@ export default class FilmPresenter {
     this.#filmComponent.setWatchedClickHandler(this.#handleWatchedClick);
     this.#filmComponent.setWatchedListClickHandler(this.#handleWatchedListClick);
 
+    this.#filmPopupComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
+    this.#filmPopupComponent.setWatchedClickHandler(this.#handleWatchedClick);
+    this.#filmPopupComponent.setWatchedListClickHandler(this.#handleWatchedListClick);
+
     if (prevFilmComponent === null || prevFilmPopupComponent === null) {
       render(this.#filmListContainer.element.querySelector('.films-list__container'), this.#filmComponent, RenderPosition.BEFOREEND);
       return;
@@ -55,7 +59,7 @@ export default class FilmPresenter {
       replace(this.#filmPopupComponent, prevFilmPopupComponent);
     }
 
-    remove(prevFilmComponent);
+    // remove(prevFilmComponent);
     remove(prevFilmPopupComponent);
   }
 
@@ -71,28 +75,25 @@ export default class FilmPresenter {
   }
 
   #renderFilm = () => {
-    const body = document.body;
     render(this.#footer, this.#filmPopupComponent, RenderPosition.BEFOREEND);
-    body.classList.add('hide-overflow');
+    document.body.classList.add('hide-overflow');
     document.addEventListener('keydown', this.#escKeyDownHandler);
     this.#changeMode();
     this.#mode = Mode.EDITING;
   }
 
   #renderPopup = () => {
-    const body = document.body;
     remove(this.#filmPopupComponent);
     document.removeEventListener('keydown', this.#escKeyDownHandler);
-    body.classList.remove('hide-overflow');
+    document.body.classList.remove('hide-overflow');
     this.#mode = Mode.DEFAULT;
   }
 
   #escKeyDownHandler = (evt) => {
-    const body = document.body;
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
       this.#renderPopup();
-      body.classList.remove('hide-overflow');
+      document.body.classList.remove('hide-overflow');
     }
   }
 
