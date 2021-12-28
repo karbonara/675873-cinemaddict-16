@@ -4,7 +4,7 @@ import FilmContainerView from '../view/film-view.js';
 import LoadingView from '../view/loading-view.js';
 import FilmPresenter from './film-presenter.js';
 import { updateItem } from '../utils/common.js';
-import { remove, render, RenderPosition } from '../utils/render.js';
+import { render, RenderPosition } from '../utils/render.js';
 
 const FILM_CARD_COUNT_PER_STEP = 8;
 
@@ -14,10 +14,9 @@ export default class FilmListPresenter {
   #sortComponent = new SortView();
   #loadComponent = new LoadingView();
   #renderedCardCount = FILM_CARD_COUNT_PER_STEP;
-  #showMoreButton = new ShowMoreButtonView();
   #cardFilms = [];
 
-  #filmPresenter = new Map();
+  #filmPresenters = new Map();
 
   constructor(cardContainer) {
     this.#cardContainer = cardContainer;
@@ -35,17 +34,17 @@ export default class FilmListPresenter {
 
   #handleFilmChange = (updatedFilm) => {
     this.#cardFilms = updateItem(this.#cardFilms, updatedFilm);
-    this.#filmPresenter.get(updatedFilm.id).init(updatedFilm);
+    this.#filmPresenters.get(updatedFilm.id).init(updatedFilm);
   }
 
   #handleModeChange = () => {
-    this.#filmPresenter.forEach((presenter) => presenter.resetView());
+    this.#filmPresenters.forEach((presenter) => presenter.resetView());
   }
 
   #renderCard = (card) => {
     const filmPresenter = new FilmPresenter(this.#cardsContainerComponent, this.#handleFilmChange, this.#handleModeChange);
     filmPresenter.init(card);
-    this.#filmPresenter.set(card.id, filmPresenter);
+    this.#filmPresenters.set(card.id, filmPresenter);
   }
 
   // Отрисовка N фильмов (карточек)
@@ -56,13 +55,6 @@ export default class FilmListPresenter {
     this.#renderShowMoreButton();
     this.#renderSort();
     this.#renderLoading();
-  }
-
-  #clearFilmList = () => {
-    this.#filmPresenter.forEach((presenter) => presenter.destroy());
-    this.#filmPresenter.clear();
-    this.#renderedCardCount = FILM_CARD_COUNT_PER_STEP;
-    remove(this.#showMoreButton);
   }
 
   // Сортировка

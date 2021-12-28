@@ -35,8 +35,8 @@ export default class FilmPresenter {
     this.#filmComponent = new FilmCardView(film);
     this.#filmPopupComponent = new PopupFilmView(film);
 
-    this.#filmComponent.setFilmClickHandler(this.#handleFilmClick);
-    this.#filmPopupComponent.popupClickeHandler(this.#handleFilmPopupClick);
+    this.#filmComponent.openPopupHandler(this.#handleFilmClick);
+    this.#filmPopupComponent.closePopupHandler(this.#handleFilmPopupClick);
 
     this.#filmComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
     this.#filmComponent.setWatchedClickHandler(this.#handleWatchedClick);
@@ -53,13 +53,15 @@ export default class FilmPresenter {
 
     if (this.#mode === Mode.DEFAULT) {
       replace(this.#filmComponent, prevFilmComponent);
-    }
-
-    if (this.#mode === Mode.EDITING) {
       replace(this.#filmPopupComponent, prevFilmPopupComponent);
     }
 
-    // remove(prevFilmComponent);
+    if (this.#mode === Mode.EDITING) {
+      replace(this.#filmComponent, prevFilmComponent);
+      replace(this.#filmPopupComponent, prevFilmPopupComponent);
+    }
+
+    remove(prevFilmComponent);
     remove(prevFilmPopupComponent);
   }
 
@@ -70,11 +72,11 @@ export default class FilmPresenter {
 
   resetView = () => {
     if (this.#mode !== Mode.DEFAULT) {
-      this.#renderPopup();
+      this.#removePopup();
     }
   }
 
-  #renderFilm = () => {
+  #renderPopup = () => {
     render(this.#footer, this.#filmPopupComponent, RenderPosition.BEFOREEND);
     document.body.classList.add('hide-overflow');
     document.addEventListener('keydown', this.#escKeyDownHandler);
@@ -82,7 +84,7 @@ export default class FilmPresenter {
     this.#mode = Mode.EDITING;
   }
 
-  #renderPopup = () => {
+  #removePopup = () => {
     remove(this.#filmPopupComponent);
     document.removeEventListener('keydown', this.#escKeyDownHandler);
     document.body.classList.remove('hide-overflow');
@@ -92,18 +94,18 @@ export default class FilmPresenter {
   #escKeyDownHandler = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
-      this.#renderPopup();
+      this.#removePopup();
       document.body.classList.remove('hide-overflow');
     }
   }
 
   #handleFilmClick = () => {
-    this.#renderFilm();
+    this.#renderPopup();
   }
 
   #handleFilmPopupClick = (film) => {
     this.#changeData(film);
-    this.#renderPopup();
+    this.#removePopup();
   }
 
   #handleFavoriteClick = () => {
