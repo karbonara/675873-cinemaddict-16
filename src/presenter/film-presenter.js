@@ -35,8 +35,8 @@ export default class FilmPresenter {
     this.#filmComponent = new FilmCardView(film);
     this.#filmPopupComponent = new PopupFilmView(film);
 
-    this.#filmComponent.openPopupHandler(this.#handleFilmClick);
-    this.#filmPopupComponent.closePopupHandler(this.#handleFilmPopupClick);
+    this.#filmComponent.openPopupHandler(this.#handleRenderPopupClick);
+    this.#filmPopupComponent.closePopupHandler(this.#handleRemovePopupClick);
 
     this.#filmComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
     this.#filmComponent.setWatchedClickHandler(this.#handleWatchedClick);
@@ -99,11 +99,11 @@ export default class FilmPresenter {
     }
   }
 
-  #handleFilmClick = () => {
+  #handleRenderPopupClick = () => {
     this.#renderPopup();
   }
 
-  #handleFilmPopupClick = (film) => {
+  #handleRemovePopupClick = (film) => {
     this.#changeData(film);
     this.#removePopup();
   }
