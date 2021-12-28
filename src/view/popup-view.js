@@ -102,8 +102,6 @@ const createPopupFilmTemplate = (card) => {
             <tr class="film-details__row">
               <td class="film-details__term">Genres</td>
               <td class="film-details__cell">
-                <span class="film-details__genre">${genre}</span>
-                <span class="film-details__genre">${genre}</span>
                 <span class="film-details__genre">${genre}</span></td>
             </tr>
           </table>
@@ -169,13 +167,43 @@ export default class PopupFilmView extends AbstractView {
     return createPopupFilmTemplate(this.#cards);
   }
 
-  popupCloseHandler = (callback) => {
-    this._callback.editClick = callback;
-    this.element.querySelector('.film-details__close-btn').addEventListener('click', this.#editCloseHandler);
+  closePopupHandler = (callback) => {
+    this._callback.closePopupOnClick = callback;
+    this.element.querySelector('.film-details__close-btn').addEventListener('click', this.#closePopupClickHandler);
   }
 
-  #editCloseHandler = (evt) => {
+  setFavoriteClickHandler = (callback) => {
+    this._callback.favoriteClick = callback;
+    this.element.querySelector('.film-details__control-button--favorite').addEventListener('click', this.#favoriteClickHandler);
+  }
+
+  setWatchedClickHandler = (callback) => {
+    this._callback.watchedClick = callback;
+    this.element.querySelector('.film-details__control-button--watched').addEventListener('click', this.#watchedClickHandler);
+  }
+
+  setWatchedListClickHandler = (callback) => {
+    this._callback.watchedListClick = callback;
+    this.element.querySelector('.film-details__control-button--watchlist').addEventListener('click', this.#watchedListClickHandler);
+  }
+
+  #closePopupClickHandler = (evt) => {
     evt.preventDefault();
-    this._callback.editClick();
+    this._callback.closePopupOnClick(this.#cards);
+  }
+
+  #favoriteClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.favoriteClick();
+  }
+
+  #watchedClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.watchedClick();
+  }
+
+  #watchedListClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.watchedListClick();
   }
 }

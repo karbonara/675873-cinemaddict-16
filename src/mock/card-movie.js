@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { getRandomInteger, generateDate } from '../utils/common.js';
 import { getRating } from '../utils/task.js';
 
@@ -130,6 +131,7 @@ const generateAgeRating = () => {
 };
 
 export const generateCard = () => ({
+  id: nanoid(),
   releaseDate: generateDate(),
   title: generateTitle(),
   description: generateDescription(),
