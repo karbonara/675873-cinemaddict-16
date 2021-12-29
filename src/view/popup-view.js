@@ -1,4 +1,4 @@
-import { datePopup } from '../utils/task.js';
+import { datePopup, datePopupComments } from '../utils/task.js';
 import AbstractView from './abstract-view.js';
 const createPopupFilmTemplate = (card) => {
   const {
@@ -47,7 +47,7 @@ const createPopupFilmTemplate = (card) => {
         <p class="film-details__comment-text">${comment}</p>
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${commentName}</span>
-          <span class="film-details__comment-day">2019/12/31 23:59</span>
+          <span class="film-details__comment-day">${datePopupComments()}</span>
           <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>
