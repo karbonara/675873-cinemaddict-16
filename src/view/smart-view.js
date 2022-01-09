@@ -1,28 +1,36 @@
-// import AbstractView from './abstract-view.js';
+import AbstractView from './abstract-view.js';
 
-// export default class SmartView extends AbstractView {
+export default class SmartView extends AbstractView {
+  _data = {};
 
-//   updateData = (update) => {
-//     if (!update) {
-//       return;
-//     }
+  updateData = (update, justDataUpdating) => {
+    if (!update) {
+      return;
+    }
 
-//     this._data = { ...this._data, ...update };
+    this._data = { ...this._data, ...update };
 
-//     this.updateElement();
-//   }
+    if (justDataUpdating) {
+      return;
+    }
 
-//   updateElement = () => {
-//     const prevElement = this.element;
-//     const parent = prevElement.parentElement;
-//     this.removeElement();
+    this.updateElement();
+  }
 
-//     const newElement = this.element;
+  updateElement = () => {
+    const prevElement = this.element;
+    const parent = prevElement.parentElement;
+    this.removeElement();
 
-//     parent.replaceChild(newElement, prevElement);
-//   }
+    const newElement = this.element;
 
-//   restoreHandlers = () => {
-//     throw new Error('Abstract method not implemented: restoreHandlers');
-//   }
-// }
+    parent.replaceChild(newElement, prevElement);
+
+    this.restoreHandlers();
+  }
+
+  restoreHandlers = () => {
+    throw new Error('Abstract method not implemented: restoreHandlers');
+  }
+
+}

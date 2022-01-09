@@ -107,20 +107,11 @@ export default class PopupFilmView extends AbstractView {
     super();
     this.#cards = cards;
 
-    this.element.querySelector('.film-details__close-btn')
-      .addEventListener('click', this.#dueDateToggleHandler);
   }
 
   get template() {
 
     return createPopupFilmTemplate(this.#cards);
-  }
-
-  #dueDateToggleHandler = (evt) => {
-    evt.preventDefault();
-    this.updateData({
-      isDueDate: !this._data.isDueDate,
-    });
   }
 
   closePopupHandler = (callback) => {
@@ -163,13 +154,4 @@ export default class PopupFilmView extends AbstractView {
     this._callback.watchedListClick();
   }
 
-  updateElement = () => {
-    const prevElement = this.element;
-    const parent = prevElement.parentElement;
-    this.removeElement();
-
-    const newElement = this.element;
-
-    parent.replaceChild(newElement, prevElement);
-  }
 }

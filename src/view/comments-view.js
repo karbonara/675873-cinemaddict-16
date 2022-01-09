@@ -1,15 +1,40 @@
 import { datePopupComments } from '../utils/task.js';
-import SortView from './sort-view.js';
+import SmartView from './smart-view.js'
+import { EMOJI_IMGES } from '../const.js';
+
+// const BLANK_COMMENT = {
+//   emoji: EMOJI_IMGES[0],
+// };
+
+const createCommentEditEmojiTemplate = (emoji, card) => (
+  `<input
+  class="film-details__emoji-item visually-hidden"
+  name="comment-emoji"
+  type="radio"
+  id="emoji-${emoji}"
+  value="${emoji}" ${card.commentImg === emoji ? 'checked' : ''}>
+  <label
+  class="film-details__emoji-label"
+  for="emoji-${emoji}">
+    <img
+    data-emoji="${emoji}"
+    src="./images/emoji/${emoji}.png"
+    width="30"
+    height="30"
+    alt="emoji">
+  </label>`
+);
+
 const createPopupCommentsTemplate = (card) => {
   const {
     comment,
-    commentImg,
     commentName,
     commentCount,
+    commentImgEmoji,
   } = card;
   const commentsList = `<li class="film-details__comment">
       <span class="film-details__comment-emoji">
-        <img src="./images/emoji/${commentImg}" width="55" height="55" alt="emoji-smile">
+        <img src="./images/emoji/${commentImgEmoji}.png" width="55" height="55" alt="emoji-smile">
       </span>
       <div>
         <p class="film-details__comment-text">${comment}</p>
@@ -21,6 +46,8 @@ const createPopupCommentsTemplate = (card) => {
       </div>
     </li>`;
 
+  const emojiTemplate = EMOJI_IMGES.map((emoji) => createCommentEditEmojiTemplate(emoji, card)).join('');
+
   return `<section class="film-details__comments-wrap">
     <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentCount}</span></h3>
     <ul class="film-details__comments-list">
@@ -28,62 +55,85 @@ const createPopupCommentsTemplate = (card) => {
     </ul>
 
     <div class="film-details__new-comment">
-      <div class="film-details__add-emoji-label"></div>
+
+      <div class="film-details__add-emoji-label">
+        ${card.commentImg ? `<img src="./images/emoji/${card.commentImg}.png" width="55" height="55" alt="emoji-${card.commentImg}">` : ''}
+      </div>
 
       <label class="film-details__comment-label">
-        <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+        <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${card.commentText ? card.commentText : ''}</textarea>
       </label>
 
       <div class="film-details__emoji-list">
-        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
-        <label class="film-details__emoji-label" for="emoji-smile">
-          <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
-        </label>
-
-        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
-        <label class="film-details__emoji-label" for="emoji-sleeping">
-          <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
-        </label>
-
-        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
-        <label class="film-details__emoji-label" for="emoji-puke">
-          <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
-        </label>
-
-        <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
-        <label class="film-details__emoji-label" for="emoji-angry">
-          <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
-        </label>
+        ${emojiTemplate}
       </div>
+
     </div>
   </section>`;
 };
-export default class CommentsView extends SortView {
-  #cards = null;
+
+export default class CommentsView extends SmartView {
+
   constructor(comments) {
     super();
-    this._data = CommentsView(comments);
+    this._data = CommentsView.parseCommentToData(comments);
+
+    this.#setInnerHandlers();
   }
 
   get template() {
-
-    return createPopupCommentsTemplate(this.#cards);
+    return createPopupCommentsTemplate(this._data);
   }
 
-  // #dueDateToggleHandler = (evt) => {
-  //   evt.preventDefault();
-  //   this.updateData({
-  //     isDueDate: !this._data.isDueDate,
-  //   });
-  // }
+  restoreHandlers = () => {
+    this.#setInnerHandlers();
+  }
 
-  updateElement = () => {
-    const prevElement = this.element;
-    const parent = prevElement.parentElement;
-    this.removeElement();
+  reset = (card) => {
+    this.updateData(
+      CommentsView.parseCommentToData(card),
+    );
+  }
 
-    const newElement = this.element;
+  #setInnerHandlers = () => {
+    this.element.querySelector('.film-details__comment-input')
+      .addEventListener('input', this.#descriptionInputHandler);
 
-    parent.replaceChild(newElement, prevElement);
+    this.element.querySelector('.film-details__emoji-list')
+      .addEventListener('change', this.#commentImgChangeHandler);
+  }
+
+  #commentImgChangeHandler = (evt) => {
+    evt.preventDefault();
+    this.updateData({
+      commentImg: evt.target.value,
+    });
+  }
+
+  #descriptionInputHandler = (evt) => {
+    evt.preventDefault();
+    this.updateData({
+      commentText: evt.target.value
+    }, true);
+  }
+
+  static parseCommentToData = (comments) => ({
+    ...comments,
+    commentImg: null,
+    commentText: null,
+  });
+
+  static = (data) => {
+    const comments = { ...data };
+
+    if (!comments) {
+      comments.commentImg = null;
+      comments.commentText = null;
+    }
+
+    delete comments.commentImg;
+    delete comments.commentText;
+
+    return comments;
   }
 }
