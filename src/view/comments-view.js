@@ -2,10 +2,6 @@ import { datePopupComments } from '../utils/task.js';
 import SmartView from './smart-view.js';
 import { EMOJI_IMGES } from '../const.js';
 
-// const BLANK_COMMENT = {
-//   emoji: EMOJI_IMGES[0],
-// };
-
 const createCommentEditEmojiTemplate = (emoji, card) => (
   `<input
   class="film-details__emoji-item visually-hidden"

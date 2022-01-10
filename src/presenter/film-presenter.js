@@ -50,9 +50,6 @@ export default class FilmPresenter {
     this.#filmPopupComponent.setWatchedClickHandler(this.#handleWatchedClick);
     this.#filmPopupComponent.setWatchedListClickHandler(this.#handleWatchedListClick);
 
-    render(this.#filmPopupComponent.element.querySelector('.film-details__bottom-container'),
-      this.#commentsComponents, RenderPosition.BEFOREEND);
-
     if (prevFilmComponent === null || prevFilmPopupComponent === null) {
       render(this.#filmListContainer.element.querySelector('.films-list__container'), this.#filmComponent, RenderPosition.BEFOREEND);
       return;
@@ -79,9 +76,12 @@ export default class FilmPresenter {
 
   resetView = () => {
     if (this.#mode !== Mode.DEFAULT) {
-      this.#filmPopupComponent.reset(this.#film);
+      this.#commentsComponents.reset(this.#film);
       this.#removePopup();
     }
+
+    render(this.#filmPopupComponent.element.querySelector('.film-details__bottom-container'),
+      this.#commentsComponents, RenderPosition.BEFOREEND);
   }
 
   #renderPopup = () => {
@@ -97,12 +97,14 @@ export default class FilmPresenter {
     document.removeEventListener('keydown', this.#escKeyDownHandler);
     document.body.classList.remove('hide-overflow');
     this.#mode = Mode.DEFAULT;
+    this.#commentsComponents.reset(this.#film);
   }
 
   #escKeyDownHandler = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
       this.#removePopup();
+      this.#commentsComponents.reset(this.#film);
       document.body.classList.remove('hide-overflow');
     }
   }

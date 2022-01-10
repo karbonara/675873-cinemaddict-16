@@ -98,14 +98,6 @@ const generateComment = () => {
   return comments[getRandomInteger(0, comments.length - 1)];
 };
 const generateCommentImg = () => {
-  // const commentsImg = [
-  //   'smile',
-  //   'puke',
-  //   'sleeping',
-  //   'angry'
-  // ];
-  // return commentsImg[getRandomInteger(0, commentsImg.length - 1)];
-
   const randomIndex = getRandomInteger(0, EMOJI_IMGES.length - 1);
   return EMOJI_IMGES[randomIndex];
 };
