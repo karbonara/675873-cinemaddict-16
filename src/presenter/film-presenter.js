@@ -54,8 +54,6 @@ export default class FilmPresenter {
     this.#filmPopupComponent.setWatchedClickHandler(this.#handleWatchedClick);
     this.#filmPopupComponent.setWatchedListClickHandler(this.#handleWatchedListClick);
 
-
-
     if (prevFilmComponent === null || prevFilmPopupComponent === null) {
       render(this.#filmListContainer.element.querySelector('.films-list__container'), this.#filmComponent, RenderPosition.BEFOREEND);
       return;

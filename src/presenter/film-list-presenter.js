@@ -5,9 +5,9 @@ import LoadingView from '../view/loading-view.js';
 import FilmPresenter from './film-presenter.js';
 import FooterView from '../view/footer-view.js';
 import { updateItem } from '../utils/common.js';
-import { render, RenderPosition } from '../utils/render.js';
+import { remove, render, RenderPosition } from '../utils/render.js';
 
-import { sortDateFilms, sortRatingFilms } from '../utils/task.js';
+// import { sortDateFilms, sortRatingFilms } from '../utils/task.js';
 import { SortType } from '../const.js';
 
 const FILM_CARD_COUNT_PER_STEP = 8;
@@ -67,15 +67,15 @@ export default class FilmListPresenter {
     //   default:
     //     this.#cardFilms = [...this.#sourcedBoardFilm];
     // }
-    switch (sortType) {
-      case SortType.DATE:
-        this.#cardFilms.sort(sortDateFilms);
-        break;
-      case SortType.RATING:
-        this.#cardFilms.sort(sortRatingFilms);
-        break;
-      default: this.#cardFilms = [...this.#sourcedBoardFilm];
-    }
+    // switch (sortType) {
+    //   case SortType.DATE:
+    //     this.#cardFilms.sort(sortDateFilms);
+    //     break;
+    //   case SortType.RATING:
+    //     this.#cardFilms.sort(sortRatingFilms);
+    //     break;
+    //   default: this.#cardFilms = [...this.#sourcedBoardFilm];
+    // }
 
     this.#currentSortType = sortType;
   }
