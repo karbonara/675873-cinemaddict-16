@@ -5,7 +5,7 @@ import LoadingView from '../view/loading-view.js';
 import FilmPresenter from './film-presenter.js';
 import FooterView from '../view/footer-view.js';
 import { updateItem } from '../utils/common.js';
-import { remove, render, RenderPosition } from '../utils/render.js';
+import { render, RenderPosition } from '../utils/render.js';
 
 // import { sortDateFilms, sortRatingFilms } from '../utils/task.js';
 import { SortType } from '../const.js';
@@ -121,39 +121,19 @@ export default class FilmListPresenter {
 
   // Кнопка отрисовки новых фильмов (карточек)
   #renderShowMoreButton = () => {
-    // if (this.#cardFilms.length > this.#renderedCardCount) {
-    //   let renderCount = this.#renderedCardCount;
-    //   const loadButton = new ShowMoreButtonView();
-    //   render(this.#cardsContainerComponent.element.querySelector('.films-list'), loadButton, RenderPosition.BEFOREEND);
-    //   loadButton.setClickHandler(() => {
-    //     this.#cardFilms
-    //       .slice(renderCount, renderCount + this.#renderedCardCount)
-    //       .forEach((card) => this.#renderCard(this.#cardContainer, card));
-    //     renderCount += this.#renderedCardCount;
-    //     if (renderCount >= this.#cardFilms.length) {
-    //       loadButton.element.remove();
-    //     }
-    //   });
-    // }
-    this.#renderCards(this.#renderedCardCount, this.#renderedCardCount + FILM_CARD_COUNT_PER_STEP);
-    this.#renderedCardCount += FILM_CARD_COUNT_PER_STEP;
-
-    if (this.#renderedCardCount >= this.#cardFilms.length) {
-      remove(this.#showMoreButtonView);
-    }
-  }
-
-  #renderLoadMoreButton = () => {
-    render(this.#cardsContainerComponent, this.#showMoreButtonView, RenderPosition.BEFOREEND);
-
-    this.#showMoreButtonView.setClickHandler(this.#renderShowMoreButton);
-  }
-
-  #renderFilmList = () => {
-    this.#renderCards(0, Math.min(this.#cardFilms.length, FILM_CARD_COUNT_PER_STEP));
-
-    if (this.#cardFilms.length > FILM_CARD_COUNT_PER_STEP) {
-      this.#renderLoadMoreButton();
+    if (this.#cardFilms.length > this.#renderedCardCount) {
+      let renderCount = this.#renderedCardCount;
+      const loadButton = new ShowMoreButtonView();
+      render(this.#cardsContainerComponent.element.querySelector('.films-list'), loadButton, RenderPosition.BEFOREEND);
+      loadButton.setClickHandler(() => {
+        this.#cardFilms
+          .slice(renderCount, renderCount + this.#renderedCardCount)
+          .forEach((card) => this.#renderCard(this.#cardContainer, card));
+        renderCount += this.#renderedCardCount;
+        if (renderCount >= this.#cardFilms.length) {
+          loadButton.element.remove();
+        }
+      });
     }
   }
 
@@ -173,7 +153,6 @@ export default class FilmListPresenter {
     this.#renderSort();
     this.#renderCards();
 
-    this.#renderFilmList();
   }
 
 }
