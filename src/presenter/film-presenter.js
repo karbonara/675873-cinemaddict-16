@@ -1,6 +1,7 @@
 import PopupFilmView from '../view/popup-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import CommentsView from '../view/comments-view.js';
+
 import { render, RenderPosition, replace, remove } from '../utils/render.js';
 
 const Mode = {
@@ -20,6 +21,8 @@ export default class FilmPresenter {
   #filmPopupComponent = null;
   #commentsComponents = null;
 
+  // #footerComponents = null;
+
   #film = null;
   #mode = Mode.DEFAULT
 
@@ -38,6 +41,7 @@ export default class FilmPresenter {
     this.#filmComponent = new FilmCardView(film);
     this.#filmPopupComponent = new PopupFilmView(film);
     this.#commentsComponents = new CommentsView(film);
+    // this.#footerComponents = new FooterView(film);
 
     this.#filmComponent.openPopupHandler(this.#handleRenderPopupClick);
     this.#filmPopupComponent.closePopupHandler(this.#handleRemovePopupClick);
@@ -49,6 +53,8 @@ export default class FilmPresenter {
     this.#filmPopupComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
     this.#filmPopupComponent.setWatchedClickHandler(this.#handleWatchedClick);
     this.#filmPopupComponent.setWatchedListClickHandler(this.#handleWatchedListClick);
+
+
 
     if (prevFilmComponent === null || prevFilmPopupComponent === null) {
       render(this.#filmListContainer.element.querySelector('.films-list__container'), this.#filmComponent, RenderPosition.BEFOREEND);

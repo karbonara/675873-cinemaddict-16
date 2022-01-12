@@ -1,5 +1,6 @@
 import { datePopup } from '../utils/task.js';
-import AbstractView from './abstract-view.js';
+// import AbstractView from './abstract-view.js';
+import SmartView from './smart-view.js';
 const createPopupFilmTemplate = (card) => {
   const {
     title,
@@ -101,17 +102,22 @@ const createPopupFilmTemplate = (card) => {
   </form>
 </section>`;
 };
-export default class PopupFilmView extends AbstractView {
+export default class PopupFilmView extends SmartView {
   #cards = null;
   constructor(cards) {
     super();
     this.#cards = cards;
-
   }
 
   get template() {
-
     return createPopupFilmTemplate(this.#cards);
+  }
+
+  restoreHandlers = () => {
+    this.closePopupHandler(this._callback.closePopupOnClick);
+    this.setFavoriteClickHandler(this._callback.favoriteClick);
+    this.setWatchedClickHandler(this._callback.watchedClick);
+    this.setWatchedListClickHandler(this._callback.watchedListClick);
   }
 
   closePopupHandler = (callback) => {
