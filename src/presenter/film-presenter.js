@@ -15,13 +15,11 @@ export default class FilmPresenter {
   #changeMode = null;
 
   #footer = document.querySelector('footer');
-  #form = document.querySelector('.film-details__bottom-container');
+  // #form = document.querySelector('.film-details__bottom-container');
 
   #filmComponent = null;
   #filmPopupComponent = null;
   #commentsComponents = null;
-
-  // #footerComponents = null;
 
   #film = null;
   #mode = Mode.DEFAULT
@@ -41,7 +39,6 @@ export default class FilmPresenter {
     this.#filmComponent = new FilmCardView(film);
     this.#filmPopupComponent = new PopupFilmView(film);
     this.#commentsComponents = new CommentsView(film);
-    // this.#footerComponents = new FooterView(film);
 
     this.#filmComponent.openPopupHandler(this.#handleRenderPopupClick);
     this.#filmPopupComponent.closePopupHandler(this.#handleRemovePopupClick);
@@ -89,6 +86,12 @@ export default class FilmPresenter {
   }
 
   #renderPopup = () => {
+    // Добавляю обработчики обратно
+    this.#filmPopupComponent.closePopupHandler(this.#handleRemovePopupClick);
+    this.#filmPopupComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
+    this.#filmPopupComponent.setWatchedClickHandler(this.#handleWatchedClick);
+    this.#filmPopupComponent.setWatchedListClickHandler(this.#handleWatchedListClick);
+
     render(this.#footer, this.#filmPopupComponent, RenderPosition.BEFOREEND);
     document.body.classList.add('hide-overflow');
     document.addEventListener('keydown', this.#escKeyDownHandler);

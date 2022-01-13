@@ -137,13 +137,6 @@ export default class FilmListPresenter {
     }
   }
 
-  // #clearMovieList = () => {
-  //   this.#taskPresenter.forEach((presenter) => presenter.destroy());
-  //   this.#taskPresenter.clear();
-  //   this.#renderedTaskCount = TASK_COUNT_PER_STEP;
-  //   remove(this.#loadComponent);
-  // }
-
   #renderBoard = () => {
     if (this.#cardFilms.length === 0) {
       this.#renderLoading();
@@ -152,7 +145,6 @@ export default class FilmListPresenter {
     }
     this.#renderSort();
     this.#renderCards();
-
   }
 
 }
