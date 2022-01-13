@@ -8,17 +8,17 @@ export const datePopup = (dueDate) => dayjs(dueDate).format('D MMMM YYYY');
 
 export const datePopupComments = (dueDate) => dayjs(dueDate).format('YYYY/MM/DD hh:mm');
 
-// export const sortDateFilms = (films, filmsCount) => {
-//   const sortedFilms = films.slice().sort((a, b) => b.release.date - a.release.date).slice(0, filmsCount);
+export const sortDateFilms = (films, filmsCount) => {
+  const sortedFilms = films.slice().sort((a, b) => b.release - a.release).slice(0, filmsCount);
 
-//   return sortedFilms;
-// };
+  return sortedFilms;
+};
 
-// export const sortRatingFilms = (films, filmsCount) => {
-//   const sortedFilms = films.slice().sort((a, b) => b.totalRating - a.totalRating).slice(0, filmsCount);
+export const sortRatingFilms = (films, filmsCount) => {
+  const sortedFilms = films.slice().sort((a, b) => b.totalRating - a.totalRating).slice(0, filmsCount);
 
-//   return sortedFilms;
-// };
+  return sortedFilms;
+};
 
 // const getFormattedMovieDate = (date, formatString) => dayjs(date).format(formatString);
 
