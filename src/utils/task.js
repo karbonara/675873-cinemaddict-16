@@ -8,31 +8,15 @@ export const datePopup = (dueDate) => dayjs(dueDate).format('D MMMM YYYY');
 
 export const datePopupComments = (dueDate) => dayjs(dueDate).format('YYYY/MM/DD hh:mm');
 
-export const sortDateFilms = (films, filmsCount) => {
-  const sortedFilms = films.slice().sort((a, b) => b.release - a.release).slice(0, filmsCount);
+const getFormattedMovieDate = (date, formatString) => dayjs(date).format(formatString);
 
-  return sortedFilms;
+const getFormattedMovieYear = (date) => getFormattedMovieDate(date, 'YYYY');
+
+export const sortDateFilms = (movieA, movieB) => {
+  const yearA = getFormattedMovieYear(movieA.releaseDate);
+  const yearB = getFormattedMovieYear(movieB.releaseDate);
+
+  return yearB - yearA;
 };
 
-export const sortRatingFilms = (films, filmsCount) => {
-  const sortedFilms = films.slice().sort((a, b) => b.totalRating - a.totalRating).slice(0, filmsCount);
-
-  return sortedFilms;
-};
-
-// const getFormattedMovieDate = (date, formatString) => dayjs(date).format(formatString);
-
-// const getFormattedMovieYear = (date) => getFormattedMovieDate(date, 'YYYY');
-
-// const getFormattedMovieDuration = (minutes) => dayjs.duration(minutes, 'm').format('H[h] m[m]');
-
-// const getRelativeTime = (date) => dayjs(date).fromNow();
-
-// export const sortDateFilms = (movieA, movieB) => {
-//   const yearA = getFormattedMovieYear(movieA.releaseDate);
-//   const yearB = getFormattedMovieYear(movieB.releaseDate);
-
-//   return yearB - yearA;
-// };
-
-// export const sortRatingFilms = (movieA, movieB) => movieB.rating - movieA.rating;
+export const sortRatingFilms = (movieA, movieB) => movieB.rating - movieA.rating;

@@ -5,7 +5,7 @@ import LoadingView from '../view/loading-view.js';
 import FilmPresenter from './film-presenter.js';
 import FooterView from '../view/footer-view.js';
 import { updateItem } from '../utils/common.js';
-import { render, RenderPosition } from '../utils/render.js';
+import { remove, render, RenderPosition } from '../utils/render.js';
 
 import { sortDateFilms, sortRatingFilms } from '../utils/task.js';
 import { SortType } from '../const.js';
@@ -52,27 +52,18 @@ export default class FilmListPresenter {
     this.#filmPresenters.get(updatedFilm.id).init(updatedFilm);
   }
 
+
   #sortFilms = (sortType) => {
     switch (sortType) {
       case SortType.DATE:
-        this.#cardFilms = sortDateFilms(this.#cardFilms, this.#cardFilms.length);
+        this.#cardFilms.sort(sortDateFilms);
         break;
       case SortType.RATING:
-        this.#cardFilms = sortRatingFilms(this.#cardFilms, this.#cardFilms.length);
+        this.#cardFilms.sort(sortRatingFilms);
         break;
       default:
         this.#cardFilms = [...this.#sourcedBoardFilm];
     }
-
-    // switch (sortType) {
-    //   case SortType.DATE:
-    //     this.#cardFilms.sort(sortDateFilms);
-    //     break;
-    //   case SortType.RATING:
-    //     this.#cardFilms.sort(sortRatingFilms);
-    //     break;
-    //   default: this.#cardFilms = [...this.#sourcedBoardFilm];
-    // }
 
     this.#currentSortType = sortType;
   }
@@ -83,7 +74,7 @@ export default class FilmListPresenter {
     }
 
     this.#sortFilms(sortType);
-
+    this.#clearFilmList();
     this.#renderBoard();
   }
 
@@ -140,6 +131,13 @@ export default class FilmListPresenter {
         }
       });
     }
+  }
+
+  #clearFilmList = () => {
+    this.#filmPresenters.forEach((presenter) => presenter.destroy());
+    this.#filmPresenters.clear();
+    this.#renderedCardCount = FILM_CARD_COUNT_PER_STEP;
+    remove(this.#showMoreButtonView);
   }
 
   #renderBoard = () => {
