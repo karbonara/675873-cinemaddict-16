@@ -8,9 +8,9 @@ export const datePopup = (dueDate) => dayjs(dueDate).format('D MMMM YYYY');
 
 export const datePopupComments = (dueDate) => dayjs(dueDate).format('YYYY/MM/DD hh:mm');
 
-const getFormattedMovieDate = (date, formatString) => dayjs(date).format(formatString);
+const getFormattedMovieDate = (dateMovie, formatString) => dayjs(dateMovie).format(formatString);
 
-const getFormattedMovieYear = (date) => getFormattedMovieDate(date, 'YYYY');
+const getFormattedMovieYear = (dates) => getFormattedMovieDate(dates, 'YYYY');
 
 export const sortDateFilms = (movieA, movieB) => {
   const yearA = getFormattedMovieYear(movieA.releaseDate);

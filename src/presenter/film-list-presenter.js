@@ -6,7 +6,6 @@ import FilmPresenter from './film-presenter.js';
 import FooterView from '../view/footer-view.js';
 import { updateItem } from '../utils/common.js';
 import { remove, render, RenderPosition } from '../utils/render.js';
-
 import { sortDateFilms, sortRatingFilms } from '../utils/task.js';
 import { SortType } from '../const.js';
 
@@ -21,9 +20,7 @@ export default class FilmListPresenter {
   #showMoreButtonView = new ShowMoreButtonView();
   #footerStatistics = document.querySelector('.footer__statistics');
   #cardFilms = [];
-
   #filmPresenters = new Map();
-
   #currentSortType = SortType.DEFAULT;
   #sourcedBoardFilm = [];
 
@@ -34,11 +31,8 @@ export default class FilmListPresenter {
   init = (cardFilms) => {
     this.#cardFilms = [...cardFilms];
     this.#sourcedBoardFilm = [...cardFilms];
-
     render(this.#cardContainer, this.#cardsContainerComponent, RenderPosition.BEFOREEND);
-
     this.#renderCounter();
-
     this.#renderBoard();
   }
 
@@ -51,7 +45,6 @@ export default class FilmListPresenter {
     this.#sourcedBoardFilm = updateItem(this.#sourcedBoardFilm, updatedFilm);
     this.#filmPresenters.get(updatedFilm.id).init(updatedFilm);
   }
-
 
   #sortFilms = (sortType) => {
     switch (sortType) {
@@ -82,7 +75,6 @@ export default class FilmListPresenter {
     const filmPresenter = new FilmPresenter(this.#cardsContainerComponent, this.#handleFilmChange, this.#handleModeChange);
     filmPresenter.init(card);
     this.#filmPresenters.set(card.id, filmPresenter);
-
   }
 
   // Отрисовка N фильмов (карточек)
@@ -105,7 +97,6 @@ export default class FilmListPresenter {
   #renderSort = () => {
     render(this.#cardsContainerComponent.element.querySelector('.films-list'), this.#sortComponent, RenderPosition.BEFOREBEGIN);
     this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
-
   }
 
   // Заглушка
@@ -119,7 +110,6 @@ export default class FilmListPresenter {
   #renderShowMoreButton = () => {
     if (this.#cardFilms.length > this.#renderedCardCount) {
       let renderCount = this.#renderedCardCount;
-      // const loadButton = new ShowMoreButtonView();
       render(this.#cardsContainerComponent.element.querySelector('.films-list'), this.#showMoreButtonView, RenderPosition.BEFOREEND);
       this.#showMoreButtonView.setClickHandler(() => {
         this.#cardFilms

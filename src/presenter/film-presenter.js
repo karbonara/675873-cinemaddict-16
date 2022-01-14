@@ -1,7 +1,6 @@
 import PopupFilmView from '../view/popup-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import CommentsView from '../view/comments-view.js';
-
 import { render, RenderPosition, replace, remove } from '../utils/render.js';
 
 const Mode = {
@@ -13,13 +12,10 @@ export default class FilmPresenter {
   #filmListContainer = null;
   #changeData = null;
   #changeMode = null;
-
   #footer = document.querySelector('footer');
-
   #filmComponent = null;
   #filmPopupComponent = null;
   #commentsComponents = null;
-
   #film = null;
   #mode = Mode.DEFAULT
 
