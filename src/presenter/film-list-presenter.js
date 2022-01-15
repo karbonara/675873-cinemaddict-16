@@ -32,8 +32,9 @@ export default class FilmListPresenter {
     this.#cardFilms = [...cardFilms];
     this.#sourcedBoardFilm = [...cardFilms];
     render(this.#cardContainer, this.#cardsContainerComponent, RenderPosition.BEFOREEND);
-    this.#renderCounter();
     this.#renderBoard();
+    this.#renderCounter();
+    this.#renderFilmList();
   }
 
   #handleModeChange = () => {
@@ -82,10 +83,9 @@ export default class FilmListPresenter {
     this.#cardFilms
       .slice(from, to)
       .forEach((card) => this.#renderCard(card));
-
     this.#renderSort();
     this.#renderLoading();
-    this.#renderShowMoreButton();
+
   }
 
   // Отрисовка статистики фильмов
@@ -106,20 +106,27 @@ export default class FilmListPresenter {
     }
   }
 
+  #renderLoadMoreButton = () => {
+    render(this.#cardsContainerComponent.element.querySelector('.films-list'), this.#showMoreButtonView, RenderPosition.BEFOREEND);
+
+    this.#showMoreButtonView.setClickHandler(this.#handleLoadMoreButtonClick);
+  }
+
+  #renderFilmList = () => {
+    this.#renderCards(this.#cardFilms.length, Math.min(this.#cardFilms.length, FILM_CARD_COUNT_PER_STEP));
+
+    if (this.#cardFilms.length > FILM_CARD_COUNT_PER_STEP) {
+      this.#renderLoadMoreButton();
+    }
+  }
+
   // Кнопка отрисовки новых фильмов (карточек)
-  #renderShowMoreButton = () => {
-    if (this.#cardFilms.length > this.#renderedCardCount) {
-      let renderCount = this.#renderedCardCount;
-      render(this.#cardsContainerComponent.element.querySelector('.films-list'), this.#showMoreButtonView, RenderPosition.BEFOREEND);
-      this.#showMoreButtonView.setClickHandler(() => {
-        this.#cardFilms
-          .slice(renderCount, renderCount + this.#renderedCardCount)
-          .forEach((card) => this.#renderCard(this.#cardContainer, card));
-        renderCount += this.#renderedCardCount;
-        if (renderCount >= this.#cardFilms.length) {
-          this.#showMoreButtonView.element.remove();
-        }
-      });
+  #handleLoadMoreButtonClick = () => {
+    this.#renderCards(this.#renderedCardCount, this.#renderedCardCount + FILM_CARD_COUNT_PER_STEP);
+    this.#renderedCardCount += FILM_CARD_COUNT_PER_STEP;
+
+    if (this.#renderedCardCount >= this.#cardFilms.length) {
+      remove(this.#showMoreButtonView);
     }
   }
 
