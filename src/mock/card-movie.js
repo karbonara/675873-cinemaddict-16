@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid';
 import { getRandomInteger, generateDate } from '../utils/common.js';
 import { getRating } from '../utils/task.js';
+import { EMOJI_IMGES } from '../const.js';
 
 const generateTitle = () => {
   const titles = [
@@ -97,13 +98,17 @@ const generateComment = () => {
   return comments[getRandomInteger(0, comments.length - 1)];
 };
 const generateCommentImg = () => {
-  const commentsImg = [
-    'smile.png',
-    'puke.png',
-    'sleeping.png',
-    'angry.png'
+  const randomIndex = getRandomInteger(0, EMOJI_IMGES.length - 1);
+  return EMOJI_IMGES[randomIndex];
+};
+const generateCommentEmoji = () => {
+  const commentsImgEmoji = [
+    'smile',
+    'puke',
+    'sleeping',
+    'angry'
   ];
-  return commentsImg[getRandomInteger(0, commentsImg.length - 1)];
+  return commentsImgEmoji[getRandomInteger(0, commentsImgEmoji.length - 1)];
 };
 const generateCommentName = () => {
   const commentsName = [
@@ -149,6 +154,7 @@ export const generateCard = () => ({
   commentImg: generateCommentImg(),
   commentName: generateCommentName(),
   commentCount: getRandomInteger(0, 99),
+  commentImgEmoji: generateCommentEmoji(),
   originalTitle: generateOriginalTitle(),
   ageRating: generateAgeRating(),
   isWatchlist: Boolean(getRandomInteger(0, 1)),
