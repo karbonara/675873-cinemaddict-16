@@ -38,13 +38,8 @@ export default class FilmPresenter {
     this.#filmComponent.openPopupHandler(this.#handleRenderPopupClick);
     this.#filmPopupComponent.closePopupHandler(this.#handleRemovePopupClick);
 
-    this.#filmComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
-    this.#filmComponent.setWatchedClickHandler(this.#handleWatchedClick);
-    this.#filmComponent.setWatchedListClickHandler(this.#handleWatchedListClick);
-
-    this.#filmPopupComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
-    this.#filmPopupComponent.setWatchedClickHandler(this.#handleWatchedClick);
-    this.#filmPopupComponent.setWatchedListClickHandler(this.#handleWatchedListClick);
+    this.#setCardHandlers();
+    this.#setPopupHandlers();
 
     render(this.#filmPopupComponent.element.querySelector('.film-details__bottom-container'), this.#commentsComponents, RenderPosition.BEFOREEND);
 
@@ -81,15 +76,26 @@ export default class FilmPresenter {
 
   #renderPopup = () => {
     // Добавляю обработчики обратно
-    this.#filmPopupComponent.closePopupHandler(this.#handleRemovePopupClick);
-    this.#filmPopupComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
-    this.#filmPopupComponent.setWatchedClickHandler(this.#handleWatchedClick);
-    this.#filmPopupComponent.setWatchedListClickHandler(this.#handleWatchedListClick);
+    this.#setPopupHandlers();
+
     render(this.#footer, this.#filmPopupComponent, RenderPosition.BEFOREEND);
     document.body.classList.add('hide-overflow');
     document.addEventListener('keydown', this.#escKeyDownHandler);
     this.#changeMode();
     this.#mode = Mode.EDITING;
+  }
+
+  #setPopupHandlers = () => {
+    this.#filmPopupComponent.closePopupHandler(this.#handleRemovePopupClick);
+    this.#filmPopupComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
+    this.#filmPopupComponent.setWatchedClickHandler(this.#handleWatchedClick);
+    this.#filmPopupComponent.setWatchedListClickHandler(this.#handleWatchedListClick);
+  }
+
+  #setCardHandlers = () => {
+    this.#filmComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
+    this.#filmComponent.setWatchedClickHandler(this.#handleWatchedClick);
+    this.#filmComponent.setWatchedListClickHandler(this.#handleWatchedListClick);
   }
 
   #removePopup = () => {
