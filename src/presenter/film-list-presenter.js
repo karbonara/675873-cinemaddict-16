@@ -4,7 +4,7 @@ import FilmContainerView from '../view/film-view.js';
 import LoadingView from '../view/loading-view.js';
 import FilmPresenter from './film-presenter.js';
 import FooterView from '../view/footer-view.js';
-import { updateItem } from '../utils/common.js';
+// import { updateItem } from '../utils/common.js';
 import { remove, render, RenderPosition } from '../utils/render.js';
 import { sortDateFilms, sortRatingFilms } from '../utils/task.js';
 import { SortType } from '../const.js';
@@ -13,24 +13,44 @@ const FILM_CARD_COUNT_PER_STEP = 8;
 
 export default class FilmListPresenter {
   #cardContainer = null;
+  #filmModel = null;
   #cardsContainerComponent = new FilmContainerView();
   #sortComponent = new SortView();
   #loadComponent = new LoadingView();
   #renderedCardCount = FILM_CARD_COUNT_PER_STEP;
   #showMoreButtonView = new ShowMoreButtonView();
   #footerStatistics = document.querySelector('.footer__statistics');
-  #cardFilms = [];
+  // #cardFilms = [];
   #filmPresenters = new Map();
   #currentSortType = SortType.DEFAULT;
-  #sourcedBoardFilm = [];
+  // #sourcedBoardFilm = [];
 
-  constructor(cardContainer) {
+  constructor(cardContainer, filmModel) {
     this.#cardContainer = cardContainer;
+    this.#filmModel = filmModel;
   }
 
-  init = (cardFilms) => {
-    this.#cardFilms = [...cardFilms];
-    this.#sourcedBoardFilm = [...cardFilms];
+  get films() {
+    switch (this.#currentSortType) {
+      case SortType.DATE:
+        return [...this.#filmModel.films].sort(sortDateFilms);
+      case SortType.RATING:
+        return [...this.#filmModel.films].sort(sortRatingFilms);
+    }
+
+    return this.#filmModel.films;
+  }
+
+  // init = (cardFilms) => {
+  //   this.#cardFilms = [...cardFilms];
+  //   this.#sourcedBoardFilm = [...cardFilms];
+  //   render(this.#cardContainer, this.#cardsContainerComponent, RenderPosition.BEFOREEND);
+  //   this.#renderBoard();
+  //   this.#renderCounter();
+  //   this.#renderFilmList();
+  // }
+
+  init = () => {
     render(this.#cardContainer, this.#cardsContainerComponent, RenderPosition.BEFOREEND);
     this.#renderBoard();
     this.#renderCounter();
@@ -42,32 +62,33 @@ export default class FilmListPresenter {
   }
 
   #handleFilmChange = (updatedFilm) => {
-    this.#cardFilms = updateItem(this.#cardFilms, updatedFilm);
-    this.#sourcedBoardFilm = updateItem(this.#sourcedBoardFilm, updatedFilm);
+    // this.#cardFilms = updateItem(this.#cardFilms, updatedFilm);
+    // this.#sourcedBoardFilm = updateItem(this.#sourcedBoardFilm, updatedFilm);
     this.#filmPresenters.get(updatedFilm.id).init(updatedFilm);
   }
 
-  #sortFilms = (sortType) => {
-    switch (sortType) {
-      case SortType.DATE:
-        this.#cardFilms.sort(sortDateFilms);
-        break;
-      case SortType.RATING:
-        this.#cardFilms.sort(sortRatingFilms);
-        break;
-      default:
-        this.#cardFilms = [...this.#sourcedBoardFilm];
-    }
+  // #sortFilms = (sortType) => {
+  //   switch (sortType) {
+  //     case SortType.DATE:
+  //       this.#cardFilms.sort(sortDateFilms);
+  //       break;
+  //     case SortType.RATING:
+  //       this.#cardFilms.sort(sortRatingFilms);
+  //       break;
+  //     default:
+  //       this.#cardFilms = [...this.#sourcedBoardFilm];
+  //   }
 
-    this.#currentSortType = sortType;
-  }
+  //   this.#currentSortType = sortType;
+  // }
 
   #handleSortTypeChange = (sortType) => {
     if (this.#currentSortType === sortType) {
       return;
     }
 
-    this.#sortFilms(sortType);
+    // this.#sortFilms(sortType);
+    this.#currentSortType = sortType;
     this.#clearFilmList();
     this.#renderBoard();
   }
@@ -79,18 +100,30 @@ export default class FilmListPresenter {
   }
 
   // Отрисовка N фильмов (карточек)
-  #renderCards = (from, to) => {
-    this.#cardFilms
-      .slice(from, to)
-      .forEach((card) => this.#renderCard(card));
+  // #renderCards = (from, to) => {
+  //   this.#cardFilms
+  //     .slice(from, to)
+  //     .forEach((card) => this.#renderCard(card));
+  //   this.#renderSort();
+  //   this.#renderLoading();
+  // }
+
+  #renderCards = (films) => {
+    this.films.forEach((card) => this.#renderCard(card));
     this.#renderSort();
     this.#renderLoading();
-
   }
 
+
+
+
   // Отрисовка статистики фильмов
+  // #renderCounter = () => {
+  //   render(this.#footerStatistics, new FooterView(this.#cardFilms.length), RenderPosition.BEFOREEND);
+  // }
+
   #renderCounter = () => {
-    render(this.#footerStatistics, new FooterView(this.#cardFilms.length), RenderPosition.BEFOREEND);
+    render(this.#footerStatistics, new FooterView(this.films.length), RenderPosition.BEFOREEND);
   }
 
   // Сортировка
@@ -100,8 +133,14 @@ export default class FilmListPresenter {
   }
 
   // Заглушка
+  // #renderLoading = () => {
+  //   if (this.#cardFilms.length === 0) {
+  //     render(this.#cardsContainerComponent.element.querySelector('.films-list'), this.#loadComponent, RenderPosition.BEFOREEND);
+  //   }
+  // }
+
   #renderLoading = () => {
-    if (this.#cardFilms.length === 0) {
+    if (this.films.length === 0) {
       render(this.#cardsContainerComponent.element.querySelector('.films-list'), this.#loadComponent, RenderPosition.BEFOREEND);
     }
   }
@@ -112,20 +151,41 @@ export default class FilmListPresenter {
     this.#showMoreButtonView.setClickHandler(this.#handleLoadMoreButtonClick);
   }
 
-  #renderFilmList = () => {
-    this.#renderCards(this.#cardFilms.length, Math.min(this.#cardFilms.length, FILM_CARD_COUNT_PER_STEP));
+  // #renderFilmList = () => {
+  //   this.#renderCards(this.#cardFilms.length, Math.min(this.#cardFilms.length, FILM_CARD_COUNT_PER_STEP));
 
-    if (this.#cardFilms.length > FILM_CARD_COUNT_PER_STEP) {
+  //   if (this.#cardFilms.length > FILM_CARD_COUNT_PER_STEP) {
+  //     this.#renderLoadMoreButton();
+  //   }
+  // }
+
+  #renderFilmList = () => {
+    this.#renderCards(this.films.length, Math.min(this.films.length, FILM_CARD_COUNT_PER_STEP));
+
+    if (this.films.length > FILM_CARD_COUNT_PER_STEP) {
       this.#renderLoadMoreButton();
     }
   }
 
   // Кнопка отрисовки новых фильмов (карточек)
-  #handleLoadMoreButtonClick = () => {
-    this.#renderCards(this.#renderedCardCount, this.#renderedCardCount + FILM_CARD_COUNT_PER_STEP);
-    this.#renderedCardCount += FILM_CARD_COUNT_PER_STEP;
+  // #handleLoadMoreButtonClick = () => {
+  //   this.#renderCards(this.#renderedCardCount, this.#renderedCardCount + FILM_CARD_COUNT_PER_STEP);
+  //   this.#renderedCardCount += FILM_CARD_COUNT_PER_STEP;
 
-    if (this.#renderedCardCount >= this.#cardFilms.length) {
+  //   if (this.#renderedCardCount >= this.#cardFilms.length) {
+  //     remove(this.#showMoreButtonView);
+  //   }
+  // }
+
+  #handleLoadMoreButtonClick = () => {
+    const filmCount = this.films.length;
+    const newRenderedFilmCount = Math.min(filmCount, this.#renderedCardCount + FILM_CARD_COUNT_PER_STEP);
+    const films = this.films.slice(this.#renderedCardCount, newRenderedFilmCount);
+
+    this.#renderCards(films);
+    this.#renderedCardCount = newRenderedFilmCount
+
+    if (this.#renderedCardCount >= filmCount) {
       remove(this.#showMoreButtonView);
     }
   }
@@ -138,7 +198,12 @@ export default class FilmListPresenter {
   }
 
   #renderBoard = () => {
-    if (this.#cardFilms.length === 0) {
+    // if (this.#cardFilms.length === 0) {
+    //   this.#renderLoading();
+
+    //   return;
+    // }
+    if (this.films.length === 0) {
       this.#renderLoading();
 
       return;
