@@ -2,6 +2,7 @@ import PopupFilmView from '../view/popup-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import CommentsView from '../view/comments-view.js';
 import { render, RenderPosition, replace, remove } from '../utils/render.js';
+import { UpdateType, UserAction } from '../const.js';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -126,15 +127,30 @@ export default class FilmPresenter {
   }
 
   #handleFavoriteClick = () => {
-    this.#changeData({ ...this.#film, isFavorite: !this.#film.isFavorite });
+    // this.#changeData({ ...this.#film, isFavorite: !this.#film.isFavorite });
+    this.#changeData(
+      UserAction.UPDATE_FILMCARD,
+      UpdateType.MINOR,
+      { ...this.#film, isFavorite: !this.#film.isFavorite }
+    );
   }
 
   #handleWatchedClick = () => {
-    this.#changeData({ ...this.#film, isWatched: !this.#film.isWatched });
+    // this.#changeData({ ...this.#film, isWatched: !this.#film.isWatched });
+    this.#changeData(
+      UserAction.UPDATE_FILMCARD,
+      UpdateType.MINOR,
+      { ...this.#film, isWatched: !this.#film.isWatched }
+    );
   }
 
   #handleWatchedListClick = () => {
-    this.#changeData({ ...this.#film, isWatchlist: !this.#film.isWatchlist });
+    // this.#changeData({ ...this.#film, isWatchlist: !this.#film.isWatchlist });
+    this.#changeData(
+      UserAction.UPDATE_FILMCARD,
+      UpdateType.MINOR,
+      { ...this.#film, isWatchlist: !this.#film.isWatchlist }
+    );
   }
 
 }
