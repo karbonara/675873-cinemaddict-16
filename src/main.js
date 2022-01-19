@@ -18,5 +18,4 @@ filmModel.cards = cards;
 const filmListPresenter = new FilmListPresenter(siteMainElement, filmModel);
 render(siteMainElement, new SiteMenuView(filters), RenderPosition.BEFOREEND);
 render(siteNavigationElement, new HeaderProfileView(), RenderPosition.BEFOREEND);
-// filmListPresenter.init(cards);
 filmListPresenter.init();
