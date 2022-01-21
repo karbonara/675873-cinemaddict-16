@@ -127,7 +127,6 @@ export default class FilmPresenter {
   }
 
   #handleFavoriteClick = () => {
-    // this.#changeData({ ...this.#film, isFavorite: !this.#film.isFavorite });
     this.#changeData(
       UserAction.UPDATE_FILMCARD,
       UpdateType.MINOR,
@@ -136,7 +135,6 @@ export default class FilmPresenter {
   }
 
   #handleWatchedClick = () => {
-    // this.#changeData({ ...this.#film, isWatched: !this.#film.isWatched });
     this.#changeData(
       UserAction.UPDATE_FILMCARD,
       UpdateType.MINOR,
@@ -145,7 +143,6 @@ export default class FilmPresenter {
   }
 
   #handleWatchedListClick = () => {
-    // this.#changeData({ ...this.#film, isWatchlist: !this.#film.isWatchlist });
     this.#changeData(
       UserAction.UPDATE_FILMCARD,
       UpdateType.MINOR,
