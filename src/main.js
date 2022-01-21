@@ -1,16 +1,13 @@
-import SiteMenuView from './view/site-menu-view.js';
 import HeaderProfileView from './view/header-profile-view.js';
 import FilmListPresenter from './presenter/film-list-presenter.js';
 import { render, RenderPosition } from './utils/render.js';
 import { generateCard } from './mock/card-movie.js';
-import { generateFilter } from './mock/filter.js';
 import FilmModel from './model/film-model.js';
 import FilterModel from './view/filter-model.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 
 const FILM_CARD_COUNT = 15;
 const cards = Array.from({ length: FILM_CARD_COUNT }, generateCard);
-const filters = generateFilter(cards);
 const siteMainElement = document.querySelector('.main');
 const siteNavigationElement = document.querySelector('.header');
 
@@ -19,8 +16,6 @@ filmModel.cards = cards;
 
 const filterModel = new FilterModel();
 
-
-render(siteMainElement, new SiteMenuView(filters), RenderPosition.BEFOREEND);
 render(siteNavigationElement, new HeaderProfileView(), RenderPosition.BEFOREEND);
 
 const filmListPresenter = new FilmListPresenter(siteMainElement, filmModel, filterModel);

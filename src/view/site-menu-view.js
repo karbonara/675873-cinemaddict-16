@@ -1,10 +1,10 @@
 import AbstractView from './abstract-view.js';
 const formatFirstLetterToUpperCase = (title) => (title[0].toUpperCase() + title.slice(1));
 
-const createSiteMenuItemTemplate = (filter) => {
+const createSiteMenuItemTemplate = (filter, currentFilterType) => {
   const { type, name, count } = filter;
-
-  return `<a href="#${type}" class="main-navigation__item " data-type="${type}">${formatFirstLetterToUpperCase(name)} <span class="main-navigation__item-count">${count}</span></a>`;
+  const defaultType = 'ALL';
+  return `<a href="#${type}" class="main-navigation__item ${type === currentFilterType ? 'main-navigation__item--active' : ''}" data-type="${type}">${formatFirstLetterToUpperCase(name)} <span class="main-navigation__item-count ${type === defaultType ? 'visually-hidden' : ''}">${count}</span></a>`;
 };
 
 const createSiteMenuTemplate = (filterItems, currentFilterType) => {
@@ -13,7 +13,6 @@ const createSiteMenuTemplate = (filterItems, currentFilterType) => {
     .join('');
   return `<nav class="main-navigation">
     <div class="main-navigation__items">
-    <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
       ${filterItemsTemplate}
     </div>
     <a href="#stats" class="main-navigation__additional">Stats</a>

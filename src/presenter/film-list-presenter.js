@@ -6,7 +6,9 @@ import FilmPresenter from './film-presenter.js';
 import FooterView from '../view/footer-view.js';
 import { remove, render, RenderPosition } from '../utils/render.js';
 import { sortDateFilms, sortRatingFilms } from '../utils/task.js';
+import { filter } from '../utils/filter.js';
 import { SortType, UpdateType, UserAction } from '../const.js';
+import { FilterType } from '../const.js';
 
 const FILM_CARD_COUNT_PER_STEP = 8;
 
@@ -14,6 +16,7 @@ export default class FilmListPresenter {
   #cardContainer = null;
   #filmModel = null;
   #sortComponent = null;
+  #filterModel = null;
   #cardsContainerComponent = new FilmContainerView();
   #loadComponent = new LoadingView();
   #renderedCardCount = FILM_CARD_COUNT_PER_STEP;
@@ -22,26 +25,26 @@ export default class FilmListPresenter {
   #footerStatistics = document.querySelector('.footer__statistics');
   #filmPresenters = new Map();
   #currentSortType = SortType.DEFAULT;
-  // #filterType = FilterType.ALL;
-  constructor(cardContainer, filmModel) {
+  #filterType = FilterType.ALL;
+  constructor(cardContainer, filmModel, filterModel) {
     this.#cardContainer = cardContainer;
     this.#filmModel = filmModel;
-
-    // this.#filmModel.addObserver(this.#handleModelEvent);
+    this.#filterModel = filterModel;
+    this.#filmModel.addObserver(this.#handleModelEvent);
+    this.#filterModel.addObserver(this.#handleModelEvent);
   }
 
   get cards() {
-    // const cards = this.#filmModel.cards;
-    // this.#filterType = this.#filterModel.filter;
-    // const filteredCard = filter[this.#filterType](cards);
+    this.#filterType = this.#filterModel.filter;
+    const cards = this.#filmModel.cards;
+    const filteredCards = filter[this.#filterType](cards);
     switch (this.#currentSortType) {
       case SortType.DATE:
         return this.#filmModel.cards.sort(sortDateFilms);
       case SortType.RATING:
         return this.#filmModel.cards.sort(sortRatingFilms);
     }
-    // return filteredCard;
-    return this.#filmModel;
+    return filteredCards;
   }
 
   init = () => {
@@ -58,7 +61,6 @@ export default class FilmListPresenter {
   }
 
   #handleViewAction = (actionType, updateType, update) => {
-    // console.log(actionType, updateType, update);
     switch (actionType) {
       case UserAction.UPDATE_FILMCARD:
         this.#filmModel.updateCard(updateType, update);
@@ -73,7 +75,6 @@ export default class FilmListPresenter {
   }
 
   #handleModelEvent = (updateType, data) => {
-    // console.log(updateType, data);
     switch (updateType) {
       case UpdateType.PATCH:
         this.#filmPresenters.get(data.id).init(data);
