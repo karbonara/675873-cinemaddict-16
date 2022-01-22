@@ -20,28 +20,28 @@ export default class FilterPresenter {
   }
 
   get filters() {
-    const cards = this.#filmModel.cards;
+    const films = this.#filmModel.films;
 
     return [
       {
         type: FilterType.ALL,
         name: 'All movies',
-        count: filter[FilterType.ALL](cards).length,
+        count: filter[FilterType.ALL](films).length,
       },
       {
         type: FilterType.WATCH,
         name: 'Watch',
-        count: filter[FilterType.WATCH](cards).length,
+        count: filter[FilterType.WATCH](films).length,
       },
       {
         type: FilterType.WATCHED,
         name: 'Watched',
-        count: filter[FilterType.WATCHED](cards).length,
+        count: filter[FilterType.WATCHED](films).length,
       },
       {
         type: FilterType.FAVORITES,
         name: 'Favorite',
-        count: filter[FilterType.FAVORITES](cards).length,
+        count: filter[FilterType.FAVORITES](films).length,
       }
     ];
   }

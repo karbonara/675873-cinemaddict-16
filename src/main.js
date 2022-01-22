@@ -7,12 +7,12 @@ import FilterModel from './view/filter-model.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 
 const FILM_CARD_COUNT = 15;
-const cards = Array.from({ length: FILM_CARD_COUNT }, generateCard);
+const films = Array.from({ length: FILM_CARD_COUNT }, generateCard);
 const siteMainElement = document.querySelector('.main');
 const siteNavigationElement = document.querySelector('.header');
 
 const filmModel = new FilmModel();
-filmModel.cards = cards;
+filmModel.films = films;
 
 const filterModel = new FilterModel();
 

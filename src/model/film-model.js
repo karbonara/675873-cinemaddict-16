@@ -1,51 +1,51 @@
 import AbstractObservable from '../utils/abstract-observable.js';
 
 export default class FilmModel extends AbstractObservable {
-  #cards = [];
+  #films = [];
 
-  set cards(cards) {
-    this.#cards = [...cards];
+  set films(films) {
+    this.#films = [...films];
   }
 
-  get cards() {
-    return this.#cards;
+  get films() {
+    return this.#films;
   }
 
   updateCard = (updateType, update) => {
-    const index = this.#cards.findIndex((film) => film.id === update.id);
+    const index = this.#films.findIndex((film) => film.id === update.id);
 
     if (index === -1) {
       throw new Error('Can\'t update unexisting task');
     }
 
-    this.#cards = [
-      ...this.#cards.slice(0, index),
+    this.#films = [
+      ...this.#films.slice(0, index),
       update,
-      ...this.#cards.slice(index + 1),
+      ...this.#films.slice(index + 1),
     ];
 
     this._notify(updateType, update);
   }
 
   addComment = (updateType, update) => {
-    this.#cards = [
+    this.#films = [
       update,
-      ...this.#cards,
+      ...this.#films,
     ];
 
     this._notify(updateType, update);
   }
 
   deleteComment = (updateType, update) => {
-    const index = this.#cards.findIndex((film) => film.id === update.id);
+    const index = this.#films.findIndex((film) => film.id === update.id);
 
     if (index === -1) {
       throw new Error('Can\'t delete unexisting film');
     }
 
-    this.#cards = [
-      ...this.#cards.slice(0, index),
-      ...this.#cards.slice(index + 1),
+    this.#films = [
+      ...this.#films.slice(0, index),
+      ...this.#films.slice(index + 1),
     ];
 
     this._notify(updateType);
