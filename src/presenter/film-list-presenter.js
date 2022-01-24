@@ -53,7 +53,7 @@ export default class FilmListPresenter {
     this.#renderCounter();
     // this.#renderFilmList();
 
-    this.#filmModel.addObserver(this.#handleModelEvent);
+    // this.#filmModel.addObserver(this.#handleModelEvent);
   }
 
   #handleModeChange = () => {
@@ -84,7 +84,7 @@ export default class FilmListPresenter {
         this.#renderBoard();
         break;
       case UpdateType.MAJOR:
-        this.#clearBoard({ resetRenderedFilmCount: true });
+        this.#clearBoard({ resetRenderedFilmCount: true, resetSortType: true });
         this.#renderBoard();
         break;
     }
@@ -135,8 +135,9 @@ export default class FilmListPresenter {
   // Сортировка
   #renderSort = () => {
     this.#sortComponent = new SortView(this.#currentSortType);
-    this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
+
     render(this.#cardsContainerComponent.element.querySelector('.films-list'), this.#sortComponent, RenderPosition.BEFOREBEGIN);
+    this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
   }
 
   // Заглушка
