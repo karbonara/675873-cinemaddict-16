@@ -20,3 +20,16 @@ export const sortDateFilms = (movieA, movieB) => {
 };
 
 export const sortRatingFilms = (movieA, movieB) => movieB.rating - movieA.rating;
+
+export const getDuration = (runtime) => {
+  const MINUTES_TO_HOURS = 60;
+  const duration = {
+    hours: 0,
+    minutes: 0,
+  };
+
+  duration.hours = runtime / MINUTES_TO_HOURS | 0;
+  duration.minutes = runtime % MINUTES_TO_HOURS;
+
+  return duration;
+};

@@ -1,7 +1,9 @@
 import { datePopupComments } from '../utils/task.js';
 import SmartView from './smart-view.js';
 import { EMOJI_IMGES } from '../const.js';
-
+import he from 'he';
+import { nanoid } from 'nanoid';
+import dayjs from 'dayjs';
 const createCommentEditEmojiTemplate = (emoji, card) => (
   `<input
   class="film-details__emoji-item visually-hidden"
@@ -30,7 +32,7 @@ const createPopupCommentsTemplate = (card) => {
   } = card;
   const commentsList = `<li class="film-details__comment">
       <span class="film-details__comment-emoji">
-        <img src="./images/emoji/${commentImgEmoji}.png" width="55" height="55" alt="emoji-smile">
+        <img src="${commentImgEmoji}" width="55" height="55" alt="emoji-smile">
       </span>
       <div>
         <p class="film-details__comment-text">${comment}</p>
@@ -69,20 +71,22 @@ const createPopupCommentsTemplate = (card) => {
 };
 
 export default class CommentsView extends SmartView {
-
+  #comments = null;
   constructor(comments) {
     super();
     this._data = CommentsView.parseCommentToData(comments);
-
+    this.#comments = comments;
     this.#setInnerHandlers();
+    // this.setAddNewCommentEventHandler();
   }
 
   get template() {
-    return createPopupCommentsTemplate(this._data);
+    return createPopupCommentsTemplate(this._data, this.#comments);
   }
 
   restoreHandlers = () => {
     this.#setInnerHandlers();
+    this.setAddNewCommentEventHandler();
   }
 
   reset = (card) => {
@@ -99,6 +103,24 @@ export default class CommentsView extends SmartView {
       .addEventListener('change', this.#commentImgChangeHandler);
   }
 
+  setAddNewCommentEventHandler = (callback) => {
+    this._callback.addNewCommentEvent = callback;
+    document.addEventListener('keydown', this.#addNewCommentKeyDownHandler);
+  }
+
+  #addNewCommentKeyDownHandler = (evt) => {
+    if ((evt.metaKey || evt.ctrlKey) && evt.key === 'Enter') {
+      evt.preventDefault();
+      const newComment = new Object();
+      newComment.id = nanoid();
+      newComment.text = this._data.commentText;
+      newComment.emotion = this._data.commentImg;
+      newComment.author = this._data.commentName;
+      newComment.date = dayjs().format('YYYY/MM/DD HH:mm');
+      document.removeEventListener('keydown', this.#addNewCommentKeyDownHandler);
+    }
+  }
+
   #commentImgChangeHandler = (evt) => {
     evt.preventDefault();
     this.updateData({
@@ -109,7 +131,7 @@ export default class CommentsView extends SmartView {
   #descriptionInputHandler = (evt) => {
     evt.preventDefault();
     this.updateData({
-      commentText: evt.target.value
+      commentText: he.encode(evt.target.value)
     }, true);
   }
 

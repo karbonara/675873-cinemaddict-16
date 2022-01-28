@@ -1,25 +1,49 @@
 import HeaderProfileView from './view/header-profile-view.js';
 import FilmListPresenter from './presenter/film-list-presenter.js';
 import { render, RenderPosition } from './utils/render.js';
-import { generateCard } from './mock/card-movie.js';
 import FilmModel from './model/film-model.js';
 import FilterModel from './view/filter-model.js';
 import FilterPresenter from './presenter/filter-presenter.js';
+import CommentsModel from './model/comments-model.js';
+// import SiteMenuView from './view/site-menu-view.js';
+// import { MenuItem } from './const.js';
+import ApiService from './api-service.js';
 
-const FILM_CARD_COUNT = 15;
-const films = Array.from({ length: FILM_CARD_COUNT }, generateCard);
+const AUTHORIZATION = 'Basic er883jdzbdq';
+const END_POINT = 'https://16.ecmascript.pages.academy/cinemaddict';
+
 const siteMainElement = document.querySelector('.main');
 const siteNavigationElement = document.querySelector('.header');
 
-const filmModel = new FilmModel();
-filmModel.films = films;
+// const siteMenuComponent = new SiteMenuView();
+const filmModel = new FilmModel(new ApiService(END_POINT, AUTHORIZATION));
 
 const filterModel = new FilterModel();
 
-render(siteNavigationElement, new HeaderProfileView(), RenderPosition.BEFOREEND);
+// const filmComments = [];
+const commentsModel = new CommentsModel(new ApiService(END_POINT, AUTHORIZATION));
+// commentsModel.comments = filmComments;
 
-const filmListPresenter = new FilmListPresenter(siteMainElement, filmModel, filterModel);
+// const handleSiteMenuClick = (menuItem) => {
+// switch (menuItem) {
+//   case MenuItem.FILM_LISTS:
+
+//     break;
+//   case MenuItem.STATISTIC:
+
+//     break;
+// }
+// };
+
+const filmListPresenter = new FilmListPresenter(siteMainElement, filmModel, filterModel, commentsModel);
 const filterPresenter = new FilterPresenter(siteMainElement, filterModel, filmModel);
 
 filterPresenter.init();
 filmListPresenter.init();
+commentsModel.init();
+
+filmModel.init().finally(() => {
+  render(siteNavigationElement, new HeaderProfileView(), RenderPosition.BEFOREEND);
+  // Временно закоментил
+  // siteMenuComponent.setFilterTypeChangeHandler(handleSiteMenuClick);
+});

@@ -9,6 +9,7 @@ export const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT',
 };
 
 export const UserAction = {
@@ -22,4 +23,9 @@ export const FilterType = {
   WATCHED: 'WATCHED',
   WATCH: 'WATCH',
   FAVORITES: 'FAVORITES',
+};
+
+export const MenuItem = {
+  FILM_LISTS: 'FILM_LISTS',
+  STATISTIC: 'STATISTIC',
 };

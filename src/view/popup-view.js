@@ -1,5 +1,4 @@
 import { datePopup } from '../utils/task.js';
-// import AbstractView from './abstract-view.js';
 import SmartView from './smart-view.js';
 const createPopupFilmTemplate = (card) => {
   const {
@@ -44,7 +43,7 @@ const createPopupFilmTemplate = (card) => {
       </div>
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
-          <img class="film-details__poster-img" src="./images/posters/${img}" alt="${title}">
+          <img class="film-details__poster-img" src="${img}" alt="${title}">
           <p class="film-details__age">${ageRating}</p>
         </div>
         <div class="film-details__info">

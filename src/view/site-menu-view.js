@@ -1,10 +1,15 @@
 import AbstractView from './abstract-view.js';
+import { MenuItem } from '../const.js';
+
+const FILM_LISTS_MODE = MenuItem.FILM_LISTS;
+const STATISTIC_MODE = MenuItem.STATISTIC;
+
 const formatFirstLetterToUpperCase = (title) => (title[0].toUpperCase() + title.slice(1));
 
 const createSiteMenuItemTemplate = (filter, currentFilterType) => {
   const { type, name, count } = filter;
   const defaultType = 'ALL';
-  return `<a href="#${type}" class="main-navigation__item ${type === currentFilterType ? 'main-navigation__item--active' : ''}" data-type="${type}">${formatFirstLetterToUpperCase(name)} <span class="main-navigation__item-count ${type === defaultType ? 'visually-hidden' : ''}">${count}</span></a>`;
+  return `<a href="#${type}" class="main-navigation__item ${type === currentFilterType ? 'main-navigation__item--active' : ''}" data-type="${type}" data-mode="${FILM_LISTS_MODE}">${formatFirstLetterToUpperCase(name)} <span class="main-navigation__item-count ${type === defaultType ? 'visually-hidden' : ''}">${count}</span></a>`;
 };
 
 const createSiteMenuTemplate = (filterItems, currentFilterType) => {
@@ -15,7 +20,7 @@ const createSiteMenuTemplate = (filterItems, currentFilterType) => {
     <div class="main-navigation__items">
       ${filterItemsTemplate}
     </div>
-    <a href="#stats" class="main-navigation__additional">Stats</a>
+    <a href="#stats" class="main-navigation__additional" data-mode="${STATISTIC_MODE}">Stats</a>
   </nav>`;
 };
 export default class SiteMenuView extends AbstractView {
@@ -40,4 +45,5 @@ export default class SiteMenuView extends AbstractView {
     evt.preventDefault();
     this._callback.filterTypeChange(evt.target.dataset.type);
   }
+
 }

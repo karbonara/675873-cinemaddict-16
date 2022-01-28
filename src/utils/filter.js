@@ -1,8 +1,7 @@
 import { FilterType } from '../const';
-// import { isTaskExpired, isTaskExpiringToday, isTaskRepeating } from './task';
 
 export const filter = {
-  [FilterType.ALL]: (movies) => movies.filter((movie) => movie),
+  [FilterType.ALL]: (films) => films.filter((film) => film),
   [FilterType.WATCH]: (films) => films.filter((film) => film.isWatchlist),
   [FilterType.WATCHED]: (films) => films.filter((film) => film.isWatched),
   [FilterType.FAVORITES]: (films) => films.filter((film) => film.isFavorite),

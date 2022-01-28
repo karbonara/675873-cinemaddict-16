@@ -16,4 +16,12 @@ export const generateDate = () => {
   const daysGap = getRandomInteger(1, maxDaysGap);
   return dayjs().add(-daysGap, 'day').toDate();
 };
-
+export const getShortDescription = (text) => {
+  const description = text;
+  const TEXT_LENGTH_TO_FILM = 140;
+  const ellipsis = '...';
+  if (description.length <= TEXT_LENGTH_TO_FILM) {
+    return description;
+  }
+  return description.substring(0, TEXT_LENGTH_TO_FILM - 1) + ellipsis;
+};

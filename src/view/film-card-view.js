@@ -1,4 +1,5 @@
-import { date } from '../utils/task.js';
+import { getShortDescription } from '../utils/common.js';
+import { date, getDuration } from '../utils/task.js';
 import AbstractView from './abstract-view.js';
 const createFilmCardTemplate = (card) => {
   const {
@@ -36,11 +37,11 @@ const createFilmCardTemplate = (card) => {
           <p class="film-card__rating film-card__rating--${colorRating}">${rating}</p>
           <p class="film-card__info">
             <span class="film-card__year">${date(releaseDate)}</span>
-            <span class="film-card__duration">${duration}</span>
+            <span class="film-card__duration">${getDuration(duration).hours}h ${getDuration(duration).minutes}m</span>
             <span class="film-card__genre">${genre}</span>
           </p>
-          <img src="./images/posters/${img}" alt="${title}" class="film-card__poster">
-          <p class="film-card__description">${description}</p>
+          <img src="${img}" alt="${title}" class="film-card__poster">
+          <p class="film-card__description">${getShortDescription(description)}</p>
           <span class="film-card__comments">${countComment} comments</span>
         </a>
           <div class="film-card__controls">
