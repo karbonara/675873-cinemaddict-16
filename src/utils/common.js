@@ -25,3 +25,4 @@ export const getShortDescription = (text) => {
   }
   return description.substring(0, TEXT_LENGTH_TO_FILM - 1) + ellipsis;
 };
+export const formatFirstLetterToUpperCase = (title) => (title[0].toUpperCase() + title.slice(1));

@@ -1,10 +1,8 @@
 import AbstractView from './abstract-view.js';
 import { MenuItem } from '../const.js';
-
+import { formatFirstLetterToUpperCase } from '../utils/common.js';
 const FILM_LISTS_MODE = MenuItem.FILM_LISTS;
 const STATISTIC_MODE = MenuItem.STATISTIC;
-
-const formatFirstLetterToUpperCase = (title) => (title[0].toUpperCase() + title.slice(1));
 
 const createSiteMenuItemTemplate = (filter, currentFilterType) => {
   const { type, name, count } = filter;
