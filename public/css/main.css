@@ -342,6 +342,7 @@ button {
 
 .film-card {
   flex-basis: 230px;
+  width: 230px;
   flex-shrink: 0;
   flex-grow: 0;
   margin-right: 10px;
